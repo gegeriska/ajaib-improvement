@@ -36,9 +36,10 @@
   .info-icon { font-size: 16px; color: #d1d5db; }
 
   .chips { display: flex; gap: 8px; margin-bottom: 14px; align-items: center; flex-wrap: wrap; }
+  .chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
   .chip { padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; border: 1.5px solid #e5e7eb; background: white; color: #6b7280; cursor: pointer; transition: all 0.15s; }
   .chip.active { border-color: #1d4ed8; background: #eff6ff; color: #1d4ed8; }
-  .market-dropdown { margin-left: auto; padding: 6px 14px; border-radius: 8px; font-size: 13px; color: #374151; border: 1.5px solid #e5e7eb; background: white; display: flex; align-items: center; gap: 6px; font-weight: 500; }
+  .market-dropdown { margin-left: auto; padding: 6px 14px; border-radius: 8px; font-size: 13px; color: #374151; border: 1.5px solid #e5e7eb; background: white; display: flex; align-items: center; gap: 6px; font-weight: 500; min-height: 38px; }
 
   .date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 12px; flex-wrap: wrap; }
   .date-text { font-size: 14px; color: #2563eb; font-weight: 600; display: flex; align-items: center; gap: 8px; }
@@ -122,21 +123,57 @@
       margin-bottom: 12px;
     }
 
+    .chips {
+      background: #f8fafc;
+      border: 1px solid #eef2f7;
+      border-radius: 16px;
+      padding: 12px;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .chip-row {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
     .chip {
-      padding: 6px 12px;
+      width: 100%;
+      padding: 8px 10px;
       font-size: 13px;
+      text-align: center;
     }
 
     .market-dropdown {
       margin-left: 0;
       width: 100%;
       justify-content: space-between;
+      padding: 0 14px;
     }
 
-    .date-text,
+    .date-row {
+      background: #f8fafc;
+      border: 1px solid #eef2f7;
+      border-radius: 16px;
+      padding: 12px;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .date-text {
+      width: 100%;
+      justify-content: space-between;
+    }
+
     .toggle-wrap {
       width: 100%;
       justify-content: space-between;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 10px 12px;
     }
 
     .insight-title {
@@ -299,9 +336,11 @@ function render() {
 
       <!-- Chips -->
       <div class="chips">
-        ${[["all","All"],["domestic","Domestic"],["foreign","Foreign"]].map(([k,l]) =>
-          `<button class="chip ${state.investor===k?'active':''}" onclick="setState({investor:'${k}'})">${l}</button>`
-        ).join("")}
+        <div class="chip-row">
+          ${[["all","All"],["domestic","Domestic"],["foreign","Foreign"]].map(([k,l]) =>
+            `<button class="chip ${state.investor===k?'active':''}" onclick="setState({investor:'${k}'})">${l}</button>`
+          ).join("")}
+        </div>
         <div class="market-dropdown">All Market <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
       </div>
 
