@@ -125,15 +125,15 @@
 
     .chips {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 132px;
-      gap: 12px;
+      grid-template-columns: minmax(0, 1fr) 116px;
+      gap: 10px;
       align-items: center;
       margin-bottom: 16px;
     }
 
     .chip-row {
       display: flex;
-      gap: 10px;
+      gap: 6px;
       min-width: 0;
     }
 
@@ -141,8 +141,8 @@
       flex: 1;
       min-width: 0;
       min-height: 42px;
-      padding: 0 10px;
-      font-size: 12px;
+      padding: 0 8px;
+      font-size: 11px;
       text-align: center;
       border-radius: 11px;
       display: flex;
@@ -156,24 +156,25 @@
       justify-content: space-between;
       min-height: 42px;
       border-radius: 10px;
-      padding: 0 14px;
+      padding: 0 12px;
+      font-size: 11px;
     }
 
     .date-row {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 132px;
-      gap: 12px;
+      grid-template-columns: minmax(0, 1fr) 116px;
+      gap: 10px;
       align-items: center;
       margin-bottom: 18px;
     }
 
     .date-text {
       min-width: 0;
-      white-space: nowrap;
       gap: 10px;
       min-height: 42px;
       display: flex;
       align-items: center;
+      font-size: 12px;
     }
 
     .toggle-wrap {
@@ -209,9 +210,28 @@
       flex-wrap: nowrap;
     }
 
+    .table-wrap {
+      overflow-x: visible;
+    }
+
     .table-header,
     .table-row {
-      min-width: 360px;
+      min-width: 0;
+      grid-template-columns: 52px minmax(76px, 1fr) minmax(76px, 1fr) minmax(62px, 0.9fr);
+    }
+
+    .table-header {
+      font-size: 11px;
+      column-gap: 8px;
+    }
+
+    .table-row {
+      font-size: 13px;
+      column-gap: 8px;
+    }
+
+    .broker-code {
+      font-size: 12px;
     }
 
     .bottom-nav {
