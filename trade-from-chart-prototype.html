@@ -34,6 +34,7 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{font-family:var(--f);background:#E5E7EB;min-height:100%;touch-action:none}
 body{margin:0}
+.frame{width:100%}
 .dev{max-width:390px;min-height:100vh;max-height:860px;margin:0 auto;background:var(--white);position:relative;overflow:hidden;width:100%}
 
 /* Header — white like Ajaib chart detail page */
@@ -213,12 +214,14 @@ body{margin:0}
 }
 
 @media (min-width: 768px){
-  body{padding:24px 0}
-  .dev{min-height:calc(100vh - 48px);border-radius:24px;box-shadow:0 20px 50px rgba(15,23,42,.08)}
+  body{padding:24px;display:flex;align-items:center;justify-content:center}
+  .frame{width:390px;height:min(860px,calc(100vh - 48px));display:flex;align-items:center;justify-content:center}
+  .dev{width:390px;min-height:860px;border-radius:24px;box-shadow:0 20px 50px rgba(15,23,42,.08);transform-origin:center center}
 }
 </style>
 </head>
 <body>
+<div class="frame">
 <div class="dev" id="app">
 <div class="ghint" id="gH"></div>
 
@@ -345,6 +348,7 @@ body{margin:0}
 
 <div class="toast" id="toast"><div style="font-size:32px;margin-bottom:6px" id="toIco">&#10003;</div><div style="font-size:16px;font-weight:700" id="toT">Beli Berhasil</div><div style="font-size:12px;font-weight:500;opacity:.85;margin-top:4px" id="toD">0.10 lot @ 1.09000</div><div style="font-size:24px;font-weight:700;margin-top:8px;display:none" id="toPnl">+$18.00</div></div>
 </div>
+</div>
 
 <script>
 const C=[
@@ -415,6 +419,20 @@ document.getElementById('simManual').addEventListener('click',()=>closePosition(
 document.getElementById('bCl').addEventListener('click',()=>closePosition('manual'));
 document.getElementById('tfB').addEventListener('click',e=>{const b=e.target.closest('.tfb');if(!b)return;document.querySelectorAll('#tfB .tfb').forEach(x=>x.classList.remove('a'));b.classList.add('a');S.zoom=0;draw()});
 addEventListener('resize',resize);resize();
+
+function syncDesktopFrame(){
+  const app=document.getElementById('app');
+  if(!app)return;
+  if(window.innerWidth>=768){
+    const scale=Math.min(1,(window.innerHeight-48)/860);
+    app.style.transform=`scale(${scale})`;
+  }else{
+    app.style.transform='';
+  }
+}
+
+syncDesktopFrame();
+window.addEventListener('resize',syncDesktopFrame);
 </script>
 </body>
 </html>

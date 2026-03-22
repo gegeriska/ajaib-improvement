@@ -20,6 +20,10 @@
     width: 100%;
   }
 
+  .frame {
+    width: 100%;
+  }
+
   .header {
     margin-bottom: 32px;
   }
@@ -205,10 +209,35 @@
       font-size: 12px;
     }
   }
+
+  @media (min-width: 768px) {
+    body {
+      padding: 24px;
+      align-items: center;
+    }
+
+    .frame {
+      width: 480px;
+      max-width: 100%;
+    }
+
+    .container {
+      max-width: 480px;
+      background: white;
+      border-radius: 28px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      padding: 28px 24px;
+    }
+
+    .divider {
+      margin: 20px 0 24px;
+    }
+  }
 </style>
 </head>
 <body>
 
+<div class="frame">
 <div class="container">
   <div class="header">
     <div class="logo-row">
@@ -265,6 +294,7 @@
   <div class="footer">
     Interactive prototypes — best viewed on mobile viewport
   </div>
+</div>
 </div>
 
 </body>
