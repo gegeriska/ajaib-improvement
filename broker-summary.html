@@ -124,56 +124,86 @@
     }
 
     .chips {
-      background: #f8fafc;
-      border: 1px solid #eef2f7;
-      border-radius: 16px;
-      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 132px;
       gap: 12px;
-      align-items: stretch;
+      align-items: center;
+      margin-bottom: 16px;
     }
 
     .chip-row {
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
+      display: flex;
+      gap: 10px;
+      min-width: 0;
     }
 
     .chip {
-      width: 100%;
-      padding: 8px 10px;
-      font-size: 13px;
+      flex: 1;
+      min-width: 0;
+      padding: 8px 0;
+      font-size: 12px;
       text-align: center;
+      border-radius: 11px;
     }
 
     .market-dropdown {
       margin-left: 0;
       width: 100%;
       justify-content: space-between;
+      min-height: 46px;
+      border-radius: 10px;
       padding: 0 14px;
+      position: relative;
+    }
+
+    .market-dropdown::before {
+      content: "";
+      position: absolute;
+      left: -7px;
+      top: 4px;
+      bottom: 4px;
+      width: 1px;
+      background: #e5e7eb;
     }
 
     .date-row {
-      background: #f8fafc;
-      border: 1px solid #eef2f7;
-      border-radius: 16px;
-      padding: 12px;
-      align-items: stretch;
-      gap: 10px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 132px;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
     }
 
     .date-text {
-      width: 100%;
-      justify-content: space-between;
+      min-width: 0;
+      white-space: nowrap;
+      gap: 10px;
     }
 
     .toggle-wrap {
       width: 100%;
-      justify-content: space-between;
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 10px 12px;
+      justify-content: flex-end;
+      gap: 8px;
+      position: relative;
+      min-height: 46px;
+    }
+
+    .toggle-wrap::before {
+      content: "";
+      position: absolute;
+      left: -7px;
+      top: 4px;
+      bottom: 4px;
+      width: 1px;
+      background: #e5e7eb;
+    }
+
+    .toggle-label {
+      font-size: 12px;
+    }
+
+    .toggle-info {
+      font-size: 12px;
     }
 
     .insight-title {
