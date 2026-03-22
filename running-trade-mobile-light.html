@@ -105,16 +105,16 @@
   /* TABLE — Ajaib style */
   .table-area{flex:1;overflow:hidden;display:flex;flex-direction:column;background:var(--bg-surface)}
 
-  .table-head.mode-general{display:grid;grid-template-columns:54px 50px minmax(84px,1fr) 38px 54px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg-app)}
-  .table-head.mode-stock{display:grid;grid-template-columns:54px minmax(100px,1fr) 42px 66px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg-app)}
-  .th{font-size:11px;font-weight:600;color:var(--text-muted)}
+  .table-head.mode-general{display:grid;grid-template-columns:64px 56px minmax(118px,1fr) 48px 46px;padding:10px 18px;border-bottom:1px solid var(--border);background:var(--bg-app);column-gap:8px}
+  .table-head.mode-stock{display:grid;grid-template-columns:64px minmax(132px,1fr) 48px 52px;padding:10px 18px;border-bottom:1px solid var(--border);background:var(--bg-app);column-gap:10px}
+  .th{font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:0.01em}
   .th.right{text-align:right}.th.center{text-align:center}
 
   .table-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg-surface)}
   .table-scroll::-webkit-scrollbar{display:none}
 
-  .trade-row.mode-general{display:grid;grid-template-columns:54px 50px minmax(84px,1fr) 38px 54px;padding:12px 16px;align-items:center;border-bottom:1px solid var(--border-light);position:relative}
-  .trade-row.mode-stock{display:grid;grid-template-columns:54px minmax(100px,1fr) 42px 66px;padding:12px 16px;align-items:center;border-bottom:1px solid var(--border-light);position:relative}
+  .trade-row.mode-general{display:grid;grid-template-columns:64px 56px minmax(118px,1fr) 48px 46px;padding:14px 18px;align-items:center;border-bottom:1px solid var(--border-light);position:relative;column-gap:8px}
+  .trade-row.mode-stock{display:grid;grid-template-columns:64px minmax(132px,1fr) 48px 52px;padding:14px 18px;align-items:center;border-bottom:1px solid var(--border-light);position:relative;column-gap:10px}
   .trade-row:nth-child(even){background:var(--bg-row-alt)}
 
   .trade-row.flash-buy{animation:fb .5s ease-out}
@@ -125,19 +125,19 @@
   .trade-row.big-trade .cell-lot{color:var(--amber);font-weight:700}
 
   /* Cell styles — Ajaib typography */
-  .cell-time{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);font-weight:500}
-  .cell-code{font-size:12px;font-weight:700;color:var(--green)}
+  .cell-time{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);font-weight:500;justify-self:start}
+  .cell-code{font-size:12px;font-weight:700;color:var(--green);justify-self:start}
   .cell-mid{display:flex;flex-direction:column;gap:2px;min-width:0}
-  .cell-price-row{display:flex;align-items:baseline;gap:5px}
+  .cell-price-row{display:flex;align-items:baseline;gap:6px;justify-content:flex-start;white-space:nowrap}
   .cell-price{font-family:var(--font-mono);font-size:13px;font-weight:600}
   .cell-price.up{color:var(--green)}.cell-price.down{color:var(--red)}.cell-price.flat{color:var(--text-primary)}
   .cell-change{font-family:var(--font-mono);font-size:9px;font-weight:500}
   .cell-change.up{color:var(--green)}.cell-change.down{color:var(--red)}.cell-change.flat{color:var(--text-muted)}
   .cell-broker{font-size:9px;color:var(--text-muted);font-family:var(--font-mono)}
-  .cell-side{text-align:center}
+  .cell-side{text-align:center;justify-self:center}
   .side-label{font-family:var(--font-sans);font-size:11px;font-weight:600}
   .side-label.buy{color:var(--green)}.side-label.sell{color:var(--red)}
-  .cell-lot{text-align:right;font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--text-secondary)}
+  .cell-lot{text-align:right;font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--text-secondary);justify-self:end}
 
   /* BOTTOM */
   .home-indicator{display:flex;justify-content:center;padding:8px 0 calc(6px + var(--safe-bottom));background:var(--bg-app)}
@@ -210,8 +210,8 @@
     .ctrl-spacer{display:none}
     .live-group{order:4}
     .filter-btn{margin-left:auto}
-    .table-head.mode-general,.trade-row.mode-general{grid-template-columns:46px 40px minmax(76px,1fr) 34px 46px;padding-left:12px;padding-right:12px}
-    .table-head.mode-stock,.trade-row.mode-stock{grid-template-columns:46px minmax(88px,1fr) 36px 54px;padding-left:12px;padding-right:12px}
+    .table-head.mode-general,.trade-row.mode-general{grid-template-columns:58px 52px minmax(104px,1fr) 42px 42px;padding-left:14px;padding-right:14px;column-gap:6px}
+    .table-head.mode-stock,.trade-row.mode-stock{grid-template-columns:58px minmax(118px,1fr) 42px 46px;padding-left:14px;padding-right:14px;column-gap:8px}
     .th{font-size:10px}
     .cell-time{font-size:10px}
     .cell-code{font-size:11px}
