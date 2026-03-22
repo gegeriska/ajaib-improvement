@@ -42,8 +42,8 @@
   .chip.active { border-color: #1d4ed8; background: #eff6ff; color: #1d4ed8; }
   .market-dropdown { margin-left: auto; padding: 6px 14px; border-radius: 8px; font-size: 13px; color: #374151; border: 1.5px solid #e5e7eb; background: white; display: flex; align-items: center; gap: 6px; font-weight: 500; min-height: 38px; }
 
-  .date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 12px; flex-wrap: wrap; }
-  .date-text { font-size: 14px; color: #2563eb; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .date-text { font-size: 14px; color: #2563eb; font-weight: 700; display: flex; align-items: center; gap: 8px; }
 
   .toggle-wrap { display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
   .toggle-label { font-size: 14px; color: #374151; font-weight: 500; }
@@ -55,13 +55,16 @@
   .toggle-track.on .toggle-thumb { left: 22px; }
   .toggle-track.off .toggle-thumb { left: 2px; }
 
-  .insight-card { background: #f8f8f6; border-radius: 14px; padding: 16px 18px; margin-bottom: 18px; }
-  .insight-title { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+  .insight-card { background: linear-gradient(180deg, #fff5f4 0%, #faf8f6 100%); border-radius: 14px; padding: 16px 18px; margin-bottom: 18px; box-shadow: 0 6px 16px rgba(17, 24, 39, 0.06); }
+  .insight-title { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 6px; }
+  .insight-main { flex: 1; min-width: 0; }
   .insight-label { font-size: 18px; font-weight: 700; }
-  .insight-drivers-label { font-size: 11px; color: #9ca3af; margin-bottom: 2px; }
+  .insight-side { min-width: 108px; text-align: right; flex-shrink: 0; }
+  .insight-drivers-label { font-size: 11px; color: #6b7280; margin-bottom: 2px; }
   .insight-drivers { display: flex; gap: 4px; justify-content: flex-end; }
   .insight-driver { font-size: 14px; font-weight: 700; }
-  .insight-desc { font-size: 12px; color: #6b7280; margin-bottom: 14px; line-height: 1.4; }
+  .insight-copy { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
+  .insight-desc { font-size: 12px; color: #6b7280; line-height: 1.4; max-width: 210px; }
   .acc-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; gap: 2px; position: relative; }
   .acc-bar > div { border-radius: 5px; }
   .acc-indicator { position: absolute; top: -2px; left: 35%; transform: translateX(-50%); width: 6px; height: 14px; border-radius: 3px; background: #3b82f6; border: 1.5px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
@@ -167,7 +170,7 @@
       grid-template-columns: minmax(0, 1fr) 116px;
       gap: 10px;
       align-items: center;
-      margin-bottom: 18px;
+      margin-bottom: 10px;
     }
 
     .date-text {
@@ -201,10 +204,20 @@
       align-items: flex-start;
     }
 
-    .insight-title > div:last-child {
+    .insight-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .insight-copy {
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .insight-side {
       width: auto;
       min-width: 96px;
-      text-align: right !important;
+      text-align: right;
     }
 
     .insight-drivers {
@@ -427,10 +440,15 @@ function render() {
       ${state.netOn ? `
       <div class="insight-card">
         <div class="insight-title">
-          <div class="insight-label">
-            <span style="color:#111827">Normal </span><span style="color:#dc2626">Distribution</span>
+          <div class="insight-main">
+            <div class="insight-label">
+              <span style="color:#111827">Normal </span><span style="color:#dc2626">Distribution</span>
+            </div>
           </div>
-          <div style="text-align:right">
+        </div>
+        <div class="insight-copy">
+          <div class="insight-desc">Selling pressure is outweighing top buyer accumulation.</div>
+          <div class="insight-side">
             <div class="insight-drivers-label">Driven by:</div>
             <div class="insight-drivers">
               ${drivers.map((d,i) =>
@@ -439,7 +457,6 @@ function render() {
             </div>
           </div>
         </div>
-        <div class="insight-desc">Selling pressure is outweighing top buyer accumulation.</div>
         <div style="position:relative;margin-bottom:4px">
           <div class="acc-bar">
             <div style="flex:3;background:#ef4444"></div>
