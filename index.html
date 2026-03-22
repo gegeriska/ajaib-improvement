@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Broker Summary — BBCA Redesign</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif; background: #f5f5f5; }
+  .app { background: white; min-height: 100vh; color: #111827; max-width: 420px; margin: 0 auto; position: relative; }
+
+  .header { padding: 14px 16px 6px; display: flex; align-items: center; justify-content: space-between; }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .ticker { font-weight: 700; font-size: 20px; letter-spacing: 0.5px; }
+  .badges { display: flex; gap: 6px; align-items: center; }
+  .badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+  .badge-dt { background: #fef3c7; color: #92400e; }
+  .badge-tl { background: #d1fae5; color: #065f46; }
+  .badge-mt { background: #dbeafe; color: #1e40af; }
+  .price-line { font-size: 13px; color: #6b7280; margin-top: 2px; }
+  .price-up { color: #16a34a; font-weight: 500; }
+  .header-icons { display: flex; gap: 18px; align-items: center; }
+
+  .indicators { display: flex; gap: 20px; padding: 8px 16px; font-size: 13px; color: #9ca3af; }
+  .ind-active { font-weight: 600; color: #111827; }
+
+  .section-tabs { display: flex; padding: 0 16px; border-bottom: 1px solid #f1f5f9; gap: 8px; }
+  .section-tab { padding: 10px 8px 8px; font-size: 14px; font-weight: 400; color: #9ca3af; border-bottom: 2.5px solid transparent; white-space: nowrap; position: relative; cursor: pointer; background: none; border-left: none; border-right: none; border-top: none; }
+  .section-tab.active { font-weight: 600; color: #2563eb; border-bottom-color: #2563eb; }
+  .notif-dot { position: absolute; top: 6px; right: -2px; width: 7px; height: 7px; border-radius: 50%; background: #ef4444; }
+
+  .content { padding: 18px 16px 0; }
+  .summary-title { font-size: 17px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .info-icon { font-size: 16px; color: #d1d5db; }
+
+  .chips { display: flex; gap: 8px; margin-bottom: 14px; align-items: center; }
+  .chip { padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; border: 1.5px solid #e5e7eb; background: white; color: #6b7280; cursor: pointer; transition: all 0.15s; }
+  .chip.active { border-color: #1d4ed8; background: #eff6ff; color: #1d4ed8; }
+  .market-dropdown { margin-left: auto; padding: 6px 14px; border-radius: 8px; font-size: 13px; color: #374151; border: 1.5px solid #e5e7eb; background: white; display: flex; align-items: center; gap: 6px; font-weight: 500; }
+
+  .date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .date-text { font-size: 14px; color: #2563eb; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+
+  .toggle-wrap { display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
+  .toggle-label { font-size: 14px; color: #374151; font-weight: 500; }
+  .toggle-info { font-size: 13px; color: #9ca3af; }
+  .toggle-track { width: 44px; height: 24px; border-radius: 12px; position: relative; transition: background 0.2s; }
+  .toggle-track.on { background: #3b82f6; }
+  .toggle-track.off { background: #d1d5db; }
+  .toggle-thumb { width: 20px; height: 20px; border-radius: 50%; background: white; position: absolute; top: 2px; transition: left 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+  .toggle-track.on .toggle-thumb { left: 22px; }
+  .toggle-track.off .toggle-thumb { left: 2px; }
+
+  .insight-card { background: #f8f8f6; border-radius: 14px; padding: 16px 18px; margin-bottom: 18px; }
+  .insight-title { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+  .insight-label { font-size: 18px; font-weight: 700; }
+  .insight-drivers-label { font-size: 11px; color: #9ca3af; margin-bottom: 2px; }
+  .insight-drivers { display: flex; gap: 4px; justify-content: flex-end; }
+  .insight-driver { font-size: 14px; font-weight: 700; }
+  .insight-desc { font-size: 12px; color: #6b7280; margin-bottom: 14px; line-height: 1.4; }
+  .acc-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; gap: 2px; position: relative; }
+  .acc-bar > div { border-radius: 5px; }
+  .acc-indicator { position: absolute; top: -2px; left: 35%; transform: translateX(-50%); width: 6px; height: 14px; border-radius: 3px; background: #3b82f6; border: 1.5px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .acc-labels { display: flex; justify-content: space-between; font-size: 11px; color: #9ca3af; margin-top: 4px; }
+
+  .data-tabs { display: flex; margin-bottom: 0; border-bottom: 1px solid #e5e7eb; }
+  .data-tab { padding: 10px 0; font-size: 15px; font-weight: 400; border: none; cursor: pointer; background: transparent; color: #9ca3af; border-bottom: 2.5px solid transparent; margin-right: 24px; transition: all 0.15s; }
+  .data-tab.active { font-weight: 600; color: #111827; border-bottom-color: #111827; }
+
+  .table-header { display: grid; grid-template-columns: 55px 1fr 1fr 1fr; padding: 12px 0 10px; border-bottom: 1px solid #f1f5f9; font-size: 13px; color: #6b7280; font-weight: 600; }
+  .table-row { display: grid; grid-template-columns: 55px 1fr 1fr 1fr; padding: 14px 0; border-bottom: 1px solid #f5f5f4; font-size: 15px; align-items: center; }
+  .broker-code { font-weight: 700; font-size: 14px; }
+  .val-cell { text-align: right; color: #374151; }
+  .sell-cell { text-align: right; color: #dc2626; }
+  .muted-cell { text-align: right; color: #6b7280; }
+  .net-cell { text-align: right; font-weight: 500; }
+
+  .show-all-btn { display: flex; justify-content: center; align-items: center; padding: 12px 0; border-radius: 0 0 12px 12px; cursor: pointer; margin-bottom: 4px; }
+  .show-all-btn.collapsed { background: linear-gradient(180deg, #f0f7ff 0%, #dbeafe 100%); }
+  .show-all-btn.expanded { background: #f8fafc; }
+  .show-all-btn svg { transition: transform 0.2s; }
+  .show-all-btn.expanded svg { transform: rotate(180deg); }
+
+  .footer-link { padding: 18px 0 28px; }
+  .footer-link span { font-size: 14px; color: #2563eb; font-weight: 600; cursor: pointer; }
+
+  .bottom-nav { position: sticky; bottom: 0; background: white; border-top: 1px solid #e5e7eb; padding: 10px 16px; display: flex; align-items: center; gap: 20px; }
+  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .nav-item span { font-size: 11px; color: #9ca3af; }
+  .beli-btn { flex: 1; margin-left: 8px; background: #2563eb; color: white; border: none; border-radius: 10px; padding: 14px 0; font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 0.3px; }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+const BROKERS = [
+  { code: "CC", bVal: 1.2e12, bLot: 1600000, bAvg: 7440, sVal: 2.3e12, sLot: 3100000, sAvg: 7398, net: -1.1e12 },
+  { code: "SQ", bVal: 660.5e9, bLot: 898900, bAvg: 7411, sVal: 1.1e12, sLot: 1500000, sAvg: 7385, net: -626.2e9 },
+  { code: "XL", bVal: 378.9e9, bLot: 527000, bAvg: 7421, sVal: 914.2e9, sLot: 1230000, sAvg: 7432, net: -535.3e9 },
+  { code: "DX", bVal: 336.1e9, bLot: 437300, bAvg: 7616, sVal: 839.1e9, sLot: 1100000, sAvg: 7601, net: -503.0e9 },
+  { code: "YP", bVal: 315.9e9, bLot: 442000, bAvg: 7395, sVal: 312.7e9, sLot: 420000, sAvg: 7410, net: 3.2e9 },
+  { code: "NI", bVal: 286.3e9, bLot: 390500, bAvg: 7371, sVal: 6.6e9, sLot: 8900, sAvg: 7382, net: 279.7e9 },
+  { code: "BK", bVal: 276e9, bLot: 366400, bAvg: 7481, sVal: 5.4e9, sLot: 7200, sAvg: 7465, net: 270.6e9 },
+  { code: "TP", bVal: 236.2e9, bLot: 322700, bAvg: 7365, sVal: 4.3e9, sLot: 5800, sAvg: 7350, net: 231.9e9 },
+  { code: "LG", bVal: 222.8e9, bLot: 300400, bAvg: 7411, sVal: 3.8e9, sLot: 5100, sAvg: 7395, net: 219.0e9 },
+  { code: "PD", bVal: 210.1e9, bLot: 292600, bAvg: 7370, sVal: 1.9e9, sLot: 2500, sAvg: 7360, net: 208.2e9 },
+  { code: "BB", bVal: 185.4e9, bLot: 250100, bAvg: 7415, sVal: 12.3e9, sLot: 16600, sAvg: 7410, net: 173.1e9 },
+  { code: "GR", bVal: 162.7e9, bLot: 219800, bAvg: 7402, sVal: 8.7e9, sLot: 11700, sAvg: 7398, net: 154.0e9 },
+  { code: "ZP", bVal: 148.2e9, bLot: 200100, bAvg: 7408, sVal: 95.6e9, sLot: 129000, sAvg: 7412, net: 52.6e9 },
+  { code: "AK", bVal: 132.5e9, bLot: 178900, bAvg: 7410, sVal: 187.3e9, sLot: 252800, sAvg: 7415, net: -54.8e9 },
+  { code: "KZ", bVal: 98.7e9, bLot: 133200, bAvg: 7395, sVal: 245.6e9, sLot: 331500, sAvg: 7402, net: -146.9e9 },
+  { code: "XC", bVal: 89.3e9, bLot: 120600, bAvg: 7388, sVal: 2.1e9, sLot: 2800, sAvg: 7390, net: 87.2e9 },
+  { code: "RX", bVal: 72.1e9, bLot: 97300, bAvg: 7412, sVal: 41.8e9, sLot: 56400, sAvg: 7418, net: 30.3e9 },
+  { code: "IF", bVal: 58.4e9, bLot: 78800, bAvg: 7405, sVal: 15.2e9, sLot: 20500, sAvg: 7400, net: 43.2e9 },
+];
+
+const BROKER_TYPE = {
+  CC:"bumn",SQ:"lokal",XL:"lokal",DX:"lokal",YP:"asing",NI:"lokal",BK:"asing",
+  TP:"asing",LG:"lokal",PD:"lokal",BB:"lokal",GR:"lokal",ZP:"asing",AK:"asing",
+  KZ:"asing",XC:"lokal",RX:"lokal",IF:"lokal"
+};
+const TYPE_COLORS = { lokal:"#d97706", asing:"#dc2626", bumn:"#2563eb" };
+const getBrokerColor = c => TYPE_COLORS[BROKER_TYPE[c]] || "#d97706";
+const netColor = v => v > 0 ? "#16a34a" : v < 0 ? "#dc2626" : "#6b7280";
+
+const fmt = v => {
+  const a = Math.abs(v);
+  if (a >= 1e12) return (v/1e12).toFixed(1)+"T";
+  if (a >= 1e9) return (v/1e9).toFixed(1)+"B";
+  if (a >= 1e6) return (v/1e6).toFixed(1)+"M";
+  if (a >= 1e3) return (v/1e3).toFixed(1)+"K";
+  return v.toString();
+};
+const fmtNet = v => (v >= 0 ? "+" : "") + fmt(v);
+const fmtLot = v => {
+  if (v >= 1e6) return (v/1e6).toFixed(1)+"M";
+  if (v >= 1e3) return (v/1e3).toFixed(1)+"K";
+  return v.toString();
+};
+
+// State
+let state = { tab: "all", netOn: true, investor: "all", showAll: false };
+
+function getActiveTab() {
+  return (!state.netOn && state.tab === "all") ? "buy" : state.tab;
+}
+
+function getSorted() {
+  const t = getActiveTab();
+  return [...BROKERS].sort((a,b) => {
+    if (t === "buy") return b.bVal - a.bVal;
+    if (t === "sell") return b.sVal - a.sVal;
+    return Math.abs(b.net) - Math.abs(a.net);
+  });
+}
+
+function getTopDrivers() {
+  return [...BROKERS].sort((a,b) => Math.abs(b.net) - Math.abs(a.net)).slice(0,3);
+}
+
+function render() {
+  const at = getActiveTab();
+  const sorted = getSorted();
+  const displayed = state.showAll ? sorted : sorted.slice(0, 10);
+  const drivers = getTopDrivers();
+
+  document.getElementById("app").innerHTML = `
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <span style="font-size:22px;color:#374151;font-weight:300">&#8249;</span>
+        <div>
+          <div class="badges">
+            <span class="ticker">BBCA</span>
+            <span class="badge badge-dt">DT25x</span>
+            <span class="badge badge-tl">TL</span>
+            <span class="badge badge-mt">MT</span>
+          </div>
+          <div class="price-line">6,775 <span class="price-up">&#9650; 25(+0,37%)</span></div>
+        </div>
+      </div>
+      <div class="header-icons">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+    </div>
+
+    <!-- Indicators -->
+    <div class="indicators">
+      ${["MA","EMA","BOLL","VOL","KSI","MACD","KD"].map((x,i) =>
+        `<span class="${(i===1||i===4)?'ind-active':''}">${x}</span>`
+      ).join("")}
+    </div>
+
+    <!-- Section tabs -->
+    <div class="section-tabs">
+      ${["Ringkasan","Informasi Broker","Insider","Feed"].map((t,i) =>
+        `<div class="section-tab ${i===1?'active':''}" style="position:relative">${t}${i===3?'<div class="notif-dot"></div>':''}</div>`
+      ).join("")}
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <div class="summary-title">Broker Summary <span class="info-icon">&#9432;</span></div>
+
+      <!-- Chips -->
+      <div class="chips">
+        ${[["all","All"],["domestic","Domestic"],["foreign","Foreign"]].map(([k,l]) =>
+          `<button class="chip ${state.investor===k?'active':''}" onclick="setState({investor:'${k}'})">${l}</button>`
+        ).join("")}
+        <div class="market-dropdown">All Market <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+
+      <!-- Date + Net toggle -->
+      <div class="date-row">
+        <div class="date-text">
+          01 Feb 26 - 28 Feb 26
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="toggle-wrap" onclick="toggleNet()">
+          <span class="toggle-label">Net</span>
+          <span class="toggle-info">&#9432;</span>
+          <div class="toggle-track ${state.netOn?'on':'off'}">
+            <div class="toggle-thumb"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insight card (only when Net ON) -->
+      ${state.netOn ? `
+      <div class="insight-card">
+        <div class="insight-title">
+          <div class="insight-label">
+            <span style="color:#111827">Normal </span><span style="color:#dc2626">Distribution</span>
+          </div>
+          <div style="text-align:right">
+            <div class="insight-drivers-label">Driven by:</div>
+            <div class="insight-drivers">
+              ${drivers.map((d,i) =>
+                `<span class="insight-driver" style="color:${getBrokerColor(d.code)}">${d.code}${i<drivers.length-1?',':''}</span>`
+              ).join("")}
+            </div>
+          </div>
+        </div>
+        <div class="insight-desc">Selling pressure is outweighing top buyer accumulation.</div>
+        <div style="position:relative;margin-bottom:4px">
+          <div class="acc-bar">
+            <div style="flex:3;background:#ef4444"></div>
+            <div style="flex:1.5;background:#fb923c"></div>
+            <div style="flex:1;background:#d1d5db"></div>
+            <div style="flex:1.5;background:#4ade80"></div>
+            <div style="flex:3;background:#16a34a"></div>
+          </div>
+          <div class="acc-indicator"></div>
+        </div>
+        <div class="acc-labels"><span>Big Dist</span><span>Neutral</span><span>Big Acc</span></div>
+      </div>
+      ` : ''}
+
+      <!-- Data tabs -->
+      <div class="data-tabs">
+        ${state.netOn ? `<button class="data-tab ${at==='all'?'active':''}" onclick="setTab('all')">By Net Flow</button>` : ''}
+        <button class="data-tab ${at==='buy'?'active':''}" onclick="setTab('buy')">Top Buyers</button>
+        <button class="data-tab ${at==='sell'?'active':''}" onclick="setTab('sell')">Top Sellers</button>
+      </div>
+
+      <!-- Table -->
+      <div>
+        <div class="table-header">
+          <span>Broker</span>
+          ${at === 'all' ? '<span style="text-align:right">Buy Value</span><span style="text-align:right">Sell Value</span><span style="text-align:right">Net</span>' : ''}
+          ${at === 'buy' ? '<span style="text-align:right">Buy Val</span><span style="text-align:right">Buy Lot</span><span style="text-align:right">Buy Avg</span>' : ''}
+          ${at === 'sell' ? '<span style="text-align:right">Sell Val</span><span style="text-align:right">Sell Lot</span><span style="text-align:right">Sell Avg</span>' : ''}
+        </div>
+
+        ${displayed.map(b => `
+          <div class="table-row">
+            <span class="broker-code" style="color:${getBrokerColor(b.code)}">${b.code}</span>
+            ${at === 'all' ? `
+              <span class="val-cell">${fmt(b.bVal)}</span>
+              <span class="sell-cell">${fmt(b.sVal)}</span>
+              <span class="net-cell" style="color:${netColor(b.net)}">${fmtNet(b.net)}</span>
+            ` : ''}
+            ${at === 'buy' ? `
+              <span class="val-cell">${fmt(b.bVal)}</span>
+              <span class="muted-cell">${fmtLot(b.bLot)}</span>
+              <span class="muted-cell">${b.bAvg.toLocaleString()}</span>
+            ` : ''}
+            ${at === 'sell' ? `
+              <span class="val-cell">${fmt(b.sVal)}</span>
+              <span class="muted-cell">${fmtLot(b.sLot)}</span>
+              <span class="muted-cell">${b.sAvg.toLocaleString()}</span>
+            ` : ''}
+          </div>
+        `).join("")}
+
+        ${sorted.length > 10 ? `
+          <div class="show-all-btn ${state.showAll?'expanded':'collapsed'}" onclick="toggleShowAll()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        ` : ''}
+      </div>
+
+      <div class="footer-link"><span>Lihat Daftar Broker</span></div>
+    </div>
+
+    <!-- Bottom nav -->
+    <div class="bottom-nav">
+      <div class="nav-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span>Alert</span>
+      </div>
+      <div class="nav-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><path d="m13 2-2 14 7-5-12-1 7-5z"/></svg>
+        <span>Fast Trade</span>
+      </div>
+      <button class="beli-btn">Beli</button>
+    </div>
+  `;
+}
+
+function setState(updates) {
+  Object.assign(state, updates);
+  render();
+}
+
+function toggleNet() {
+  if (state.netOn && state.tab === "all") state.tab = "buy";
+  state.netOn = !state.netOn;
+  render();
+}
+
+function setTab(t) {
+  state.tab = t;
+  state.showAll = false;
+  render();
+}
+
+function toggleShowAll() {
+  state.showAll = !state.showAll;
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
