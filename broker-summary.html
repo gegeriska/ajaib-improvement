@@ -7,7 +7,7 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif; background: #f5f5f5; }
-  .app { background: white; min-height: 100vh; color: #111827; max-width: 420px; margin: 0 auto; position: relative; }
+  .app { background: white; min-height: 100vh; color: #111827; max-width: 420px; margin: 0 auto; position: relative; width: 100%; }
 
   .header { padding: 14px 16px 6px; display: flex; align-items: center; justify-content: space-between; }
   .header-left { display: flex; align-items: center; gap: 12px; }
@@ -19,12 +19,14 @@
   .badge-mt { background: #dbeafe; color: #1e40af; }
   .price-line { font-size: 13px; color: #6b7280; margin-top: 2px; }
   .price-up { color: #16a34a; font-weight: 500; }
-  .header-icons { display: flex; gap: 18px; align-items: center; }
+  .header-icons { display: flex; gap: 18px; align-items: center; flex-shrink: 0; }
 
-  .indicators { display: flex; gap: 20px; padding: 8px 16px; font-size: 13px; color: #9ca3af; }
+  .indicators { display: flex; gap: 20px; padding: 8px 16px; font-size: 13px; color: #9ca3af; overflow-x: auto; scrollbar-width: none; }
+  .indicators::-webkit-scrollbar { display: none; }
   .ind-active { font-weight: 600; color: #111827; }
 
-  .section-tabs { display: flex; padding: 0 16px; border-bottom: 1px solid #f1f5f9; gap: 8px; }
+  .section-tabs { display: flex; padding: 0 16px; border-bottom: 1px solid #f1f5f9; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+  .section-tabs::-webkit-scrollbar { display: none; }
   .section-tab { padding: 10px 8px 8px; font-size: 14px; font-weight: 400; color: #9ca3af; border-bottom: 2.5px solid transparent; white-space: nowrap; position: relative; cursor: pointer; background: none; border-left: none; border-right: none; border-top: none; }
   .section-tab.active { font-weight: 600; color: #2563eb; border-bottom-color: #2563eb; }
   .notif-dot { position: absolute; top: 6px; right: -2px; width: 7px; height: 7px; border-radius: 50%; background: #ef4444; }
@@ -33,12 +35,12 @@
   .summary-title { font-size: 17px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
   .info-icon { font-size: 16px; color: #d1d5db; }
 
-  .chips { display: flex; gap: 8px; margin-bottom: 14px; align-items: center; }
+  .chips { display: flex; gap: 8px; margin-bottom: 14px; align-items: center; flex-wrap: wrap; }
   .chip { padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; border: 1.5px solid #e5e7eb; background: white; color: #6b7280; cursor: pointer; transition: all 0.15s; }
   .chip.active { border-color: #1d4ed8; background: #eff6ff; color: #1d4ed8; }
   .market-dropdown { margin-left: auto; padding: 6px 14px; border-radius: 8px; font-size: 13px; color: #374151; border: 1.5px solid #e5e7eb; background: white; display: flex; align-items: center; gap: 6px; font-weight: 500; }
 
-  .date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 12px; flex-wrap: wrap; }
   .date-text { font-size: 14px; color: #2563eb; font-weight: 600; display: flex; align-items: center; gap: 8px; }
 
   .toggle-wrap { display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
@@ -63,10 +65,13 @@
   .acc-indicator { position: absolute; top: -2px; left: 35%; transform: translateX(-50%); width: 6px; height: 14px; border-radius: 3px; background: #3b82f6; border: 1.5px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
   .acc-labels { display: flex; justify-content: space-between; font-size: 11px; color: #9ca3af; margin-top: 4px; }
 
-  .data-tabs { display: flex; margin-bottom: 0; border-bottom: 1px solid #e5e7eb; }
+  .data-tabs { display: flex; margin-bottom: 0; border-bottom: 1px solid #e5e7eb; overflow-x: auto; scrollbar-width: none; }
+  .data-tabs::-webkit-scrollbar { display: none; }
   .data-tab { padding: 10px 0; font-size: 15px; font-weight: 400; border: none; cursor: pointer; background: transparent; color: #9ca3af; border-bottom: 2.5px solid transparent; margin-right: 24px; transition: all 0.15s; }
   .data-tab.active { font-weight: 600; color: #111827; border-bottom-color: #111827; }
 
+  .table-wrap { overflow-x: auto; scrollbar-width: none; }
+  .table-wrap::-webkit-scrollbar { display: none; }
   .table-header { display: grid; grid-template-columns: 55px 1fr 1fr 1fr; padding: 12px 0 10px; border-bottom: 1px solid #f1f5f9; font-size: 13px; color: #6b7280; font-weight: 600; }
   .table-row { display: grid; grid-template-columns: 55px 1fr 1fr 1fr; padding: 14px 0; border-bottom: 1px solid #f5f5f4; font-size: 15px; align-items: center; }
   .broker-code { font-weight: 700; font-size: 14px; }
@@ -88,6 +93,93 @@
   .nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
   .nav-item span { font-size: 11px; color: #9ca3af; }
   .beli-btn { flex: 1; margin-left: 8px; background: #2563eb; color: white; border: none; border-radius: 10px; padding: 14px 0; font-size: 16px; font-weight: 700; cursor: pointer; letter-spacing: 0.3px; }
+
+  @media (max-width: 480px) {
+    .header {
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .header-left {
+      min-width: 0;
+      gap: 10px;
+    }
+
+    .ticker {
+      font-size: 18px;
+    }
+
+    .badges {
+      flex-wrap: wrap;
+    }
+
+    .price-line {
+      line-height: 1.4;
+    }
+
+    .summary-title {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    .chip {
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+
+    .market-dropdown {
+      margin-left: 0;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .date-text,
+    .toggle-wrap {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .insight-title {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .insight-title > div:last-child {
+      width: 100%;
+      text-align: left !important;
+    }
+
+    .insight-drivers {
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .table-header,
+    .table-row {
+      min-width: 360px;
+    }
+
+    .bottom-nav {
+      gap: 12px;
+      padding: 10px 12px;
+    }
+
+    .beli-btn {
+      margin-left: 0;
+    }
+  }
+
+  @media (min-width: 768px) {
+    body {
+      padding: 24px 0;
+    }
+
+    .app {
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+  }
 </style>
 </head>
 <body>
@@ -267,7 +359,7 @@ function render() {
       </div>
 
       <!-- Table -->
-      <div>
+      <div class="table-wrap">
         <div class="table-header">
           <span>Broker</span>
           ${at === 'all' ? '<span style="text-align:right">Buy Value</span><span style="text-align:right">Sell Value</span><span style="text-align:right">Net</span>' : ''}

@@ -32,8 +32,9 @@
   --m:'JetBrains Mono',monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{font-family:var(--f);background:#E5E7EB;height:100%;overflow:hidden;touch-action:none}
-.dev{max-width:390px;height:100vh;max-height:860px;margin:0 auto;background:var(--white);position:relative;overflow:hidden}
+html,body{font-family:var(--f);background:#E5E7EB;min-height:100%;touch-action:none}
+body{margin:0}
+.dev{max-width:390px;min-height:100vh;max-height:860px;margin:0 auto;background:var(--white);position:relative;overflow:hidden;width:100%}
 
 /* Header — white like Ajaib chart detail page */
 .hdr{background:var(--white);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-l)}
@@ -59,7 +60,8 @@ html,body{font-family:var(--f);background:#E5E7EB;height:100%;overflow:hidden;to
 .bar24-chev{margin-left:auto;color:var(--txt4);font-size:16px;cursor:pointer}
 
 /* Timeframe row */
-.tfrow{display:flex;padding:10px 14px;align-items:center;gap:4px;border-bottom:1px solid var(--border-l)}
+.tfrow{display:flex;padding:10px 14px;align-items:center;gap:4px;border-bottom:1px solid var(--border-l);overflow-x:auto;scrollbar-width:none}
+.tfrow::-webkit-scrollbar{display:none}
 .tfb{background:transparent;color:var(--txt3);border:none;border-radius:16px;padding:6px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--f)}
 .tfb.a{background:var(--dark);color:var(--white);font-weight:600}
 .tf-sep{width:1px;height:22px;background:var(--border);margin:0 6px}
@@ -96,13 +98,15 @@ html,body{font-family:var(--f);background:#E5E7EB;height:100%;overflow:hidden;to
 .mc-btn-sub{font-size:10px;font-weight:500;opacity:.8;margin-top:2px}
 
 /* Indicator tabs */
-.ibar{display:flex;padding:0 10px;border-bottom:1px solid var(--border-l);align-items:center;overflow-x:auto}
+.ibar{display:flex;padding:0 10px;border-bottom:1px solid var(--border-l);align-items:center;overflow-x:auto;scrollbar-width:none}
+.ibar::-webkit-scrollbar{display:none}
 .ib{background:0;color:var(--txt3);border:0;padding:9px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--f);white-space:nowrap}
 .ib.a{color:var(--txt);font-weight:600}
 .ib-gear{margin-left:auto;color:var(--txt3);font-size:18px;padding:8px;cursor:pointer}
 
 /* Content tabs — Ringkasan style */
-.ctabs{display:flex;padding:0 10px;border-bottom:1px solid var(--border-l);overflow-x:auto}
+.ctabs{display:flex;padding:0 10px;border-bottom:1px solid var(--border-l);overflow-x:auto;scrollbar-width:none}
+.ctabs::-webkit-scrollbar{display:none}
 .ctab{background:0;color:var(--txt3);border:0;padding:12px 16px;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--f);border-bottom:2.5px solid transparent;white-space:nowrap}
 .ctab.a{color:var(--blue);font-weight:600;border-bottom-color:var(--blue)}
 
@@ -142,7 +146,7 @@ html,body{font-family:var(--f);background:#E5E7EB;height:100%;overflow:hidden;to
 /* Panel */
 .pov{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.3);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}
 .pov.on{opacity:1;pointer-events:auto}
-.pnl{position:absolute;bottom:0;left:0;right:0;background:var(--white);border-radius:16px 16px 0 0;padding:12px 20px 28px;z-index:45;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 -8px 40px rgba(0,0,0,.1);touch-action:pan-y}
+.pnl{position:absolute;bottom:0;left:0;right:0;background:var(--white);border-radius:16px 16px 0 0;padding:12px 20px 28px;z-index:45;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);box-shadow:0 -8px 40px rgba(0,0,0,.1);touch-action:pan-y;max-height:88vh;overflow-y:auto}
 .pnl.open{transform:translateY(0)}
 .pnl-h{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 12px;cursor:grab}
 .pnl-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
@@ -181,6 +185,37 @@ html,body{font-family:var(--f);background:#E5E7EB;height:100%;overflow:hidden;to
 .ghint.on{opacity:1}
 .zi{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.65);color:var(--white);border-radius:8px;padding:8px 18px;font-size:12px;font-weight:600;z-index:15;opacity:0;transition:opacity .2s;pointer-events:none;font-family:var(--m)}
 .zi.on{opacity:1}
+
+@media (max-width: 480px){
+  .pair{padding:16px 14px 12px;gap:10px;align-items:flex-start}
+  .pair{flex-wrap:wrap}
+  .pair-right{width:100%;text-align:left}
+  .pair-price{font-size:20px}
+  .bar24{padding:10px 14px;flex-wrap:wrap;row-gap:4px}
+  .bar24-chev{margin-left:0}
+  .tfrow{padding:10px 10px}
+  .tfb{padding:6px 10px;font-size:12px}
+  .tf-depth{padding:6px 4px}
+  .mc{width:min(220px,calc(100vw - 28px))}
+  .sim-bar{flex-wrap:wrap}
+  .fbtn{padding:12px 14px 16px;flex-direction:column}
+  .posb{padding:8px 14px;gap:8px;flex-wrap:wrap}
+  .posc{padding:12px 14px 16px;flex-wrap:wrap}
+  .poss{min-width:calc(50% - 4px)}
+  .bcl{flex:1 1 100%}
+  .hist{margin:10px 14px}
+  .hist-item{gap:10px;align-items:flex-start}
+  .pnl{padding:12px 14px 22px}
+  .lg{flex-wrap:wrap}
+  .lb{min-width:72px}
+  .str{flex-direction:column}
+  .sum{flex-wrap:wrap;gap:8px}
+}
+
+@media (min-width: 768px){
+  body{padding:24px 0}
+  .dev{min-height:calc(100vh - 48px);border-radius:24px;box-shadow:0 20px 50px rgba(15,23,42,.08)}
+}
 </style>
 </head>
 <body>
@@ -327,7 +362,7 @@ const C=[
 let S={scr:'chart',side:null,lots:.1,entry:1.09,sl:1.0868,tp:1.0918,pendingPrice:null,orderType:'market',zoom:0,chOn:false,drag:null,cardOn:false,actionsOn:false,lastCandle:null,lastPrice:null};
 const PM=1.0828,PX=1.0922;let CL,CR,CT,CB,SW;
 const cv=document.getElementById('cC'),cx=cv.getContext('2d'),wr=document.getElementById('cW');
-function resize(){const w=wr.clientWidth,h=Math.min(280,innerHeight*.3),d=devicePixelRatio||1;cv.width=w*d;cv.height=h*d;cv.style.height=h+'px';cx.setTransform(d,0,0,d,0,0);SW=62;CL=8;CR=w-SW-4;CT=8;CB=h-28;draw()}
+function resize(){const w=wr.clientWidth,h=Math.max(220,Math.min(320,Math.min(innerHeight*.34,w*.78))),d=devicePixelRatio||1;cv.width=w*d;cv.height=h*d;cv.style.height=h+'px';cx.setTransform(d,0,0,d,0,0);SW=Math.max(56,Math.min(62,w*.16));CL=8;CR=w-SW-4;CT=8;CB=h-28;draw()}
 const p2y=p=>CT+((PX-p)/(PX-PM))*(CB-CT),y2p=y=>PX-((y-CT)/(CB-CT))*(PX-PM);
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v)),pip=(a,b)=>Math.abs(Math.round((a-b)*1e4)),pnlC=(t,e)=>((t-e)*1e5*S.lots).toFixed(2);
 function rrect(x,y,w,h,r){cx.beginPath();cx.moveTo(x+r,y);cx.lineTo(x+w-r,y);cx.quadraticCurveTo(x+w,y,x+w,y+r);cx.lineTo(x+w,y+h-r);cx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);cx.lineTo(x+r,y+h);cx.quadraticCurveTo(x,y+h,x,y+h-r);cx.lineTo(x,y+r);cx.quadraticCurveTo(x,y,x+r,y);cx.closePath()}
