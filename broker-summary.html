@@ -140,30 +140,23 @@
     .chip {
       flex: 1;
       min-width: 0;
-      padding: 8px 0;
+      min-height: 42px;
+      padding: 0 10px;
       font-size: 12px;
       text-align: center;
       border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .market-dropdown {
       margin-left: 0;
       width: 100%;
       justify-content: space-between;
-      min-height: 46px;
+      min-height: 42px;
       border-radius: 10px;
       padding: 0 14px;
-      position: relative;
-    }
-
-    .market-dropdown::before {
-      content: "";
-      position: absolute;
-      left: -7px;
-      top: 4px;
-      bottom: 4px;
-      width: 1px;
-      background: #e5e7eb;
     }
 
     .date-row {
@@ -178,24 +171,17 @@
       min-width: 0;
       white-space: nowrap;
       gap: 10px;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
     }
 
     .toggle-wrap {
       width: 100%;
       justify-content: flex-end;
       gap: 8px;
-      position: relative;
-      min-height: 46px;
-    }
-
-    .toggle-wrap::before {
-      content: "";
-      position: absolute;
-      left: -7px;
-      top: 4px;
-      bottom: 4px;
-      width: 1px;
-      background: #e5e7eb;
+      min-height: 42px;
+      align-items: center;
     }
 
     .toggle-label {
@@ -207,18 +193,20 @@
     }
 
     .insight-title {
-      flex-direction: column;
-      gap: 10px;
+      flex-direction: row;
+      gap: 12px;
+      align-items: flex-start;
     }
 
     .insight-title > div:last-child {
-      width: 100%;
-      text-align: left !important;
+      width: auto;
+      min-width: 96px;
+      text-align: right !important;
     }
 
     .insight-drivers {
-      justify-content: flex-start;
-      flex-wrap: wrap;
+      justify-content: flex-end;
+      flex-wrap: nowrap;
     }
 
     .table-header,
