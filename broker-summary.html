@@ -10,29 +10,27 @@
   .frame { width: 100%; }
   .app { background: white; min-height: 100vh; color: #111827; max-width: 420px; margin: 0 auto; position: relative; width: 100%; }
 
-  .header { padding: 14px 16px 6px; display: flex; align-items: center; justify-content: space-between; }
+  .header { padding: 12px 14px 4px; display: flex; align-items: center; justify-content: space-between; }
   .header-left { display: flex; align-items: center; gap: 12px; }
-  .ticker { font-weight: 700; font-size: 20px; letter-spacing: 0.5px; }
-  .badges { display: flex; gap: 6px; align-items: center; }
-  .badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
-  .badge-dt { background: #fef3c7; color: #92400e; }
-  .badge-tl { background: #d1fae5; color: #065f46; }
-  .badge-mt { background: #dbeafe; color: #1e40af; }
-  .price-line { font-size: 13px; color: #6b7280; margin-top: 2px; }
+  .ticker { font-weight: 700; font-size: 18px; letter-spacing: 0.2px; }
+  .badges { display: flex; gap: 4px; align-items: center; }
+  .badge { font-size: 10px; padding: 3px 7px; border-radius: 5px; font-weight: 700; line-height: 1; }
+  .badge-dt { background: #d29a18; color: #ffffff; }
+  .badge-tl { background: #1d4ed8; color: #ffffff; }
+  .badge-mt { background: #334155; color: #ffffff; }
+  .price-line { font-size: 12px; color: #6b7280; margin-top: 2px; }
   .price-up { color: #16a34a; font-weight: 500; }
-  .header-icons { display: flex; gap: 18px; align-items: center; flex-shrink: 0; }
+  .header-icons { display: flex; gap: 16px; align-items: center; flex-shrink: 0; }
 
-  .indicators { display: flex; gap: 20px; padding: 8px 16px; font-size: 13px; color: #9ca3af; overflow-x: auto; scrollbar-width: none; }
-  .indicators::-webkit-scrollbar { display: none; }
-  .ind-active { font-weight: 600; color: #111827; }
-
-  .section-tabs { display: flex; padding: 0 16px; border-bottom: 1px solid #f1f5f9; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+  .section-tabs { display: grid; grid-template-columns: 0.95fr 1.35fr 0.9fr 0.7fr; align-items: stretch; padding: 0 10px; border-bottom: 1px solid #f1f5f9; gap: 0; overflow: hidden; scrollbar-width: none; }
   .section-tabs::-webkit-scrollbar { display: none; }
-  .section-tab { padding: 10px 8px 8px; font-size: 14px; font-weight: 400; color: #9ca3af; border-bottom: 2.5px solid transparent; white-space: nowrap; position: relative; cursor: pointer; background: none; border-left: none; border-right: none; border-top: none; }
-  .section-tab.active { font-weight: 600; color: #2563eb; border-bottom-color: #2563eb; }
-  .notif-dot { position: absolute; top: 6px; right: -2px; width: 7px; height: 7px; border-radius: 50%; background: #ef4444; }
+  .section-tab { display: flex; align-items: center; justify-content: center; min-width: 0; text-align: center; padding: 10px 0 9px; font-size: 15px; font-weight: 600; color: #8b95a7; white-space: nowrap; position: relative; cursor: pointer; background: none; border: none; }
+  .section-tab-label { position: relative; display: inline-block; padding: 0 6px; }
+  .section-tab.active { color: #2563eb; }
+  .section-tab.active .section-tab-label::after { content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 3px; border-radius: 999px; background: #2563eb; }
+  .notif-dot { position: absolute; top: -2px; right: -2px; width: 7px; height: 7px; border-radius: 50%; background: #ef4444; }
 
-  .content { padding: 18px 16px 88px; }
+  .content { padding: 12px 16px 88px; }
   .summary-title { font-size: 17px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
   .info-icon { font-size: 16px; color: #d1d5db; }
 
@@ -42,7 +40,7 @@
   .chip.active { border-color: #1d4ed8; background: #eff6ff; color: #1d4ed8; }
   .market-dropdown { margin-left: auto; padding: 6px 14px; border-radius: 8px; font-size: 13px; color: #374151; border: 1.5px solid #e5e7eb; background: white; display: flex; align-items: center; gap: 6px; font-weight: 500; min-height: 38px; }
 
-  .date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 12px; flex-wrap: wrap; }
+  .date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 12px; flex-wrap: wrap; }
   .date-text { font-size: 14px; color: #2563eb; font-weight: 700; display: flex; align-items: center; gap: 8px; }
 
   .toggle-wrap { display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
@@ -108,7 +106,7 @@
 
     .header-left {
       min-width: 0;
-      gap: 10px;
+      gap: 8px;
     }
 
     .ticker {
@@ -116,11 +114,26 @@
     }
 
     .badges {
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      gap: 4px;
     }
 
     .price-line {
       line-height: 1.4;
+    }
+
+    .section-tabs {
+      grid-template-columns: 0.95fr 1.3fr 0.9fr 0.72fr;
+      padding: 0 6px;
+    }
+
+    .section-tab {
+      font-size: 15px;
+      padding: 10px 0 9px;
+    }
+
+    .section-tab-label {
+      padding: 0 2px;
     }
 
     .summary-title {
@@ -170,7 +183,7 @@
       grid-template-columns: minmax(0, 1fr) 116px;
       gap: 10px;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
 
     .date-text {
@@ -393,17 +406,10 @@ function render() {
       </div>
     </div>
 
-    <!-- Indicators -->
-    <div class="indicators">
-      ${["MA","EMA","BOLL","VOL","KSI","MACD","KD"].map((x,i) =>
-        `<span class="${(i===1||i===4)?'ind-active':''}">${x}</span>`
-      ).join("")}
-    </div>
-
     <!-- Section tabs -->
     <div class="section-tabs">
       ${["Ringkasan","Informasi Broker","Insider","Feed"].map((t,i) =>
-        `<div class="section-tab ${i===1?'active':''}" style="position:relative">${t}${i===3?'<div class="notif-dot"></div>':''}</div>`
+        `<div class="section-tab ${i===1?'active':''}"><span class="section-tab-label">${t}${i===3?'<div class="notif-dot"></div>':''}</span></div>`
       ).join("")}
     </div>
 
