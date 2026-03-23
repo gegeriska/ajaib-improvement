@@ -106,7 +106,7 @@
   .table-area{flex:1;overflow:hidden;display:flex;flex-direction:column;background:var(--bg-surface)}
 
   .table-head.mode-general{display:grid;grid-template-columns:64px 56px minmax(118px,1fr) 48px 46px;padding:10px 18px;border-bottom:1px solid var(--border);background:var(--bg-app);column-gap:8px}
-  .table-head.mode-stock{display:grid;grid-template-columns:64px minmax(132px,1fr) 48px 52px;padding:10px 18px;border-bottom:1px solid var(--border);background:var(--bg-app);column-gap:10px}
+  .table-head.mode-stock{display:grid;grid-template-columns:54px 106px 38px 42px minmax(30px,1fr) minmax(30px,1fr);padding:10px 10px;border-bottom:1px solid var(--border);background:var(--bg-app);column-gap:5px}
   .th{font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:0.01em}
   .th.right{text-align:right}.th.center{text-align:center}
 
@@ -114,7 +114,7 @@
   .table-scroll::-webkit-scrollbar{display:none}
 
   .trade-row.mode-general{display:grid;grid-template-columns:64px 56px minmax(118px,1fr) 48px 46px;padding:14px 18px;align-items:center;border-bottom:1px solid var(--border-light);position:relative;column-gap:8px}
-  .trade-row.mode-stock{display:grid;grid-template-columns:64px minmax(132px,1fr) 48px 52px;padding:14px 18px;align-items:center;border-bottom:1px solid var(--border-light);position:relative;column-gap:10px}
+  .trade-row.mode-stock{display:grid;grid-template-columns:54px 106px 38px 42px minmax(30px,1fr) minmax(30px,1fr);padding:12px 10px;align-items:center;border-bottom:1px solid var(--border-light);position:relative;column-gap:5px}
   .trade-row:nth-child(even){background:var(--bg-row-alt)}
 
   .trade-row.flash-buy{animation:fb .5s ease-out}
@@ -127,17 +127,23 @@
   /* Cell styles — Ajaib typography */
   .cell-time{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);font-weight:500;justify-self:start}
   .cell-code{font-size:12px;font-weight:700;color:var(--green);justify-self:start}
-  .cell-mid{display:flex;flex-direction:column;gap:2px;min-width:0}
-  .cell-price-row{display:flex;align-items:baseline;gap:6px;justify-content:flex-start;white-space:nowrap}
+  .cell-mid{display:flex;flex-direction:column;gap:2px;min-width:0;justify-self:start;width:100%}
+  .cell-price-row{display:flex;align-items:baseline;gap:5px;justify-content:flex-start;white-space:nowrap}
   .cell-price{font-family:var(--font-mono);font-size:13px;font-weight:600}
   .cell-price.up{color:var(--green)}.cell-price.down{color:var(--red)}.cell-price.flat{color:var(--text-primary)}
   .cell-change{font-family:var(--font-mono);font-size:9px;font-weight:500}
   .cell-change.up{color:var(--green)}.cell-change.down{color:var(--red)}.cell-change.flat{color:var(--text-muted)}
   .cell-broker{font-size:9px;color:var(--text-muted);font-family:var(--font-mono)}
-  .cell-side{text-align:center;justify-self:center}
+  .cell-side{text-align:center;justify-self:center;width:100%}
   .side-label{font-family:var(--font-sans);font-size:11px;font-weight:600}
   .side-label.buy{color:var(--green)}.side-label.sell{color:var(--red)}
-  .cell-lot{text-align:right;font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--text-secondary);justify-self:end}
+  .cell-lot{text-align:right;font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--text-secondary);justify-self:center;width:100%}
+  .cell-brk{display:flex;flex-direction:row;align-items:baseline;gap:1px;justify-self:center;white-space:nowrap;width:100%;justify-content:center}
+  .brk-code{font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--text-primary)}
+  .brk-type{font-family:var(--font-mono);font-size:8px;font-weight:700;letter-spacing:0.1px}
+  .brk-type.D{color:var(--blue)}
+  .brk-type.B{color:#7B2FBE}
+  .brk-type.F{color:var(--amber)}
 
   /* BOTTOM */
   .home-indicator{display:flex;justify-content:center;padding:8px 0 calc(6px + var(--safe-bottom));background:var(--bg-app)}
@@ -211,13 +217,17 @@
     .live-group{order:4}
     .filter-btn{margin-left:auto}
     .table-head.mode-general,.trade-row.mode-general{grid-template-columns:58px 52px minmax(104px,1fr) 42px 42px;padding-left:14px;padding-right:14px;column-gap:6px}
-    .table-head.mode-stock,.trade-row.mode-stock{grid-template-columns:58px minmax(118px,1fr) 42px 46px;padding-left:14px;padding-right:14px;column-gap:8px}
+    .table-head.mode-stock,.trade-row.mode-stock{grid-template-columns:50px 96px 34px 34px minmax(24px,1fr) minmax(24px,1fr);padding-left:6px;padding-right:6px;column-gap:4px}
     .th{font-size:10px}
     .cell-time{font-size:10px}
     .cell-code{font-size:11px}
     .cell-price{font-size:12px}
     .cell-change{font-size:8px}
     .cell-lot{font-size:11px}
+    .side-label{font-size:10px}
+    .cell-lot{font-size:10px}
+    .brk-code{font-size:9px}
+    .brk-type{font-size:7px}
     .sheet-section{padding:14px 16px}
     .sheet-header{padding:8px 16px 14px}
     .sheet-footer{padding:14px 16px calc(14px + var(--safe-bottom));flex-direction:column}
@@ -256,7 +266,7 @@
 
   <div class="table-area">
     <div class="table-head mode-general" id="thGen"><div class="th">Time</div><div class="th">Code</div><div class="th">Price</div><div class="th center">Side</div><div class="th right">Lot</div></div>
-    <div class="table-head mode-stock hidden" id="thStk"><div class="th">Time</div><div class="th">Price</div><div class="th center">Side</div><div class="th right">Lot</div></div>
+    <div class="table-head mode-stock hidden" id="thStk"><div class="th">Time</div><div class="th">Price</div><div class="th center">Side</div><div class="th right">Lot</div><div class="th center">Buyer</div><div class="th center">Seller</div></div>
     <div class="table-scroll" id="tScroll"></div>
   </div>
 
@@ -298,6 +308,7 @@ const WL=[{name:'Blue Chips',stocks:['BBCA','BBRI','BMRI','TLKM','ASII']},{name:
 const PF=[{name:'My Portfolio',stocks:['BBCA','TLKM','GGRM','ICBP','GOTO']}];
 const IX=[{name:'LQ45',count:45},{name:'IDX30',count:30},{name:'IDX80',count:80},{name:'KOMPAS100',count:100},{name:'SRI-KEHATI',count:25}];
 const BIG_VAL=5e8,BIG_LOT=1000;
+const BRK_TYPE={YP:'D',CC:'F',DX:'F',KS:'D',PD:'D',GR:'F',AI:'D',MS:'B',BK:'B',ZP:'F',NI:'B',TP:'D'};
 
 let paused=false,tBuy=0,tSell=0,tCnt=0,h=9,mn=0,sc=0,activeSide='all',minLot=0;
 let mode='general',selStock=null,sheetStock=null,selListName=null,sheetListName=null,selSrc='search',sheetSrc='search';
@@ -377,7 +388,13 @@ function addRow(t){
   if(mode==='general'){
     row.innerHTML='<div class="cell-time">'+t.time+'</div><div class="cell-code">'+t.code+'</div><div class="cell-mid"><div class="cell-price-row"><span class="cell-price '+pd+'">'+fmt(t.price)+'</span><span class="cell-change '+pd+'">('+cs+t.changePct+'%)</span></div></div><div class="cell-side"><span class="side-label '+t.action+'">'+sl+'</span></div><div class="cell-lot">'+fmt(t.lot)+'</div>';
   }else{
-    row.innerHTML='<div class="cell-time">'+t.time+'</div><div class="cell-mid"><div class="cell-price-row"><span class="cell-price '+pd+'">'+fmt(t.price)+'</span><span class="cell-change '+pd+'">('+cs+t.changePct+'%)</span></div><div class="cell-broker">'+t.buyer+' → '+t.seller+'</div></div><div class="cell-side"><span class="side-label '+t.action+'">'+sl+'</span></div><div class="cell-lot">'+fmt(t.lot)+'</div>';
+    const bt=BRK_TYPE[t.buyer]||'D',st=BRK_TYPE[t.seller]||'D';
+    row.innerHTML='<div class="cell-time">'+t.time+'</div>'
+      +'<div class="cell-mid"><div class="cell-price-row"><span class="cell-price '+pd+'">'+fmt(t.price)+'</span><span class="cell-change '+pd+'">('+cs+t.changePct+'%)</span></div></div>'
+      +'<div class="cell-side"><span class="side-label '+t.action+'">'+sl+'</span></div>'
+      +'<div class="cell-lot">'+fmt(t.lot)+'</div>'
+      +'<div class="cell-brk"><span class="brk-code">'+t.buyer+'</span><span class="brk-type '+bt+'">['+bt+']</span></div>'
+      +'<div class="cell-brk"><span class="brk-code">'+t.seller+'</span><span class="brk-type '+st+'">['+st+']</span></div>';
   }
   scroll.insertBefore(row,scroll.firstChild);
   while(scroll.children.length>150)scroll.removeChild(scroll.lastChild);
