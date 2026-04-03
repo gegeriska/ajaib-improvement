@@ -45,10 +45,10 @@
   .date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 12px; flex-wrap: wrap; }
   .date-text { font-size: 14px; color: #2563eb; font-weight: 700; display: flex; align-items: center; gap: 8px; }
   .date-btn { background: transparent; border: 0; padding: 0; cursor: pointer; font: inherit; color: #2563eb; }
-  .date-sheet-overlay { position: absolute; inset: 0; background: rgba(17, 24, 39, 0.36); opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 45; }
+  .date-sheet-overlay { position: fixed; inset: 0; background: rgba(17, 24, 39, 0.36); opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 45; }
   .date-sheet-overlay.open { opacity: 1; pointer-events: auto; }
-  .date-sheet { position: absolute; left: 0; right: 0; bottom: 0; background: #ffffff; border-radius: 18px 18px 0 0; box-shadow: 0 -14px 28px rgba(17, 24, 39, 0.14); transform: translateY(104%); transition: transform 0.24s ease; z-index: 46; padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px)); }
-  .date-sheet.open { transform: translateY(0); }
+  .date-sheet { position: fixed; left: 50%; bottom: 0; width: min(420px, 100vw); background: #ffffff; border-radius: 18px 18px 0 0; box-shadow: 0 -14px 28px rgba(17, 24, 39, 0.14); transform: translate(-50%, 104%); transition: transform 0.24s ease; z-index: 46; padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px)); }
+  .date-sheet.open { transform: translate(-50%, 0); }
   .date-sheet-title { text-align: center; font-size: 15px; font-weight: 700; color: #111827; margin: 2px 0 12px; }
   .date-sheet-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
   .date-sheet-pill { border: 1.5px solid #e5e7eb; background: #ffffff; color: #6b7280; border-radius: 999px; min-height: 30px; padding: 0 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
@@ -82,16 +82,23 @@
   .acc-bar > div { border-radius: 5px; }
   .acc-indicator { position: absolute; top: -2px; left: 35%; transform: translateX(-50%); width: 6px; height: 14px; border-radius: 3px; background: #3b82f6; border: 1.5px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
   .acc-labels { display: flex; justify-content: space-between; font-size: 11px; color: #9ca3af; margin-top: 4px; }
+  .insight-card.compact { padding: 12px 14px; margin-bottom: 14px; }
+  .insight-card.compact .insight-title { margin-bottom: 8px; }
+  .insight-card.compact .insight-label { font-size: 14px; }
 
   .data-tabs { display: flex; margin-bottom: 0; border-bottom: 1px solid #e5e7eb; overflow-x: auto; scrollbar-width: none; }
   .data-tabs::-webkit-scrollbar { display: none; }
   .data-tab { padding: 10px 0; font-size: 15px; font-weight: 400; border: none; cursor: pointer; background: transparent; color: #9ca3af; border-bottom: 2.5px solid transparent; margin-right: 24px; transition: all 0.15s; }
   .data-tab.active { font-weight: 600; color: #111827; border-bottom-color: #111827; }
 
-  .table-wrap { overflow-x: auto; scrollbar-width: none; }
+  .table-wrap { position: relative; overflow-x: auto; scrollbar-width: none; }
   .table-wrap::-webkit-scrollbar { display: none; }
+  .table-wrap.scroll-hint::after { content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 18px; background: linear-gradient(90deg, rgba(255,255,255,0), #ffffff 78%); pointer-events: none; }
   .table-header { display: grid; grid-template-columns: 56px repeat(3, minmax(0, 1fr)); column-gap: 14px; padding: 12px 0 10px; border-bottom: 1px solid #f1f5f9; font-size: 13px; color: #6b7280; font-weight: 600; }
   .table-row { display: grid; grid-template-columns: 56px repeat(3, minmax(0, 1fr)); column-gap: 14px; padding: 14px 0; font-size: 15px; align-items: center; }
+  .table-header.wide-mode,
+  .table-row.wide-mode { grid-template-columns: 58px 74px 66px 66px 58px 74px 66px; column-gap: 10px; min-width: 610px; }
+  .table-row.wide-mode { border-bottom: 1px solid #f5f5f4; }
   .table-row-btn { width: 100%; background: transparent; border: 0; text-align: left; cursor: pointer; border-bottom: 1px solid #f5f5f4; }
   .broker-row.expanded .table-row-btn { border-bottom: 0; }
   .broker-code { font-weight: 700; font-size: 14px; }
@@ -102,6 +109,11 @@
   .net-cell { font-weight: 500; }
   .row-last { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
   .row-chevron { font-size: 15px; color: #9ca3af; width: 14px; text-align: center; flex-shrink: 0; }
+  .pair-code { font-weight: 700; font-size: 14px; }
+  .net-flow-cell { display: flex; align-items: center; justify-content: flex-end; gap: 8px; width: 100%; }
+  .net-inline-track { width: 46px; height: 6px; border-radius: 999px; background: #e5e7eb; overflow: hidden; flex-shrink: 0; }
+  .net-inline-fill { height: 100%; border-radius: 999px; }
+  .net-inline-value { font-weight: 500; min-width: 56px; text-align: right; }
 
   .row-detail { background: #ffffff; border-bottom: 1px solid #f1f5f9; padding: 10px 12px 12px; margin-bottom: 0; }
   .detail-label { font-size: 11px; color: #9ca3af; margin-bottom: 8px; letter-spacing: 0.2px; font-weight: 600; text-transform: uppercase; }
@@ -245,9 +257,9 @@
     }
 
     .date-sheet {
-      left: 0;
-      right: 0;
+      left: 50%;
       border-radius: 16px 16px 0 0;
+      width: 100vw;
       padding: 10px 12px calc(12px + env(safe-area-inset-bottom, 0px));
     }
 
@@ -321,7 +333,7 @@
     }
 
     .table-wrap {
-      overflow-x: visible;
+      overflow-x: auto;
     }
 
     .table-header,
@@ -338,6 +350,23 @@
     .table-row {
       font-size: 13px;
       column-gap: 12px;
+    }
+
+    .table-header.wide-mode,
+    .table-row.wide-mode {
+      min-width: 590px;
+      grid-template-columns: 54px 68px 60px 60px 54px 68px 60px;
+      column-gap: 8px;
+      font-size: 12px;
+    }
+
+    .net-inline-track {
+      width: 38px;
+    }
+
+    .net-inline-value {
+      min-width: 50px;
+      font-size: 12px;
     }
 
     .broker-code {
@@ -393,6 +422,7 @@
 <div class="frame">
   <div class="app" id="app"></div>
 </div>
+<div id="modal-root"></div>
 
 <script>
 const BROKERS = [
@@ -629,6 +659,70 @@ function renderRows(at, displayed, sorted) {
   }).join("");
 }
 
+function getNetFillPct(value, maxAbs) {
+  if (!maxAbs || !value) return 0;
+  return Math.max(10, Math.round((Math.abs(value) / maxAbs) * 100));
+}
+
+function renderNetRows(displayed, allRows) {
+  const maxAbsNet = allRows.length ? Math.max(...allRows.map(item => Math.abs(item.net))) : 0;
+  return displayed.map(b => {
+    const isExpanded = state.expandedBroker === b.code;
+    const fillPct = getNetFillPct(b.net, maxAbsNet);
+    return `
+      <div class="broker-row ${isExpanded ? 'expanded' : ''}">
+        <button class="table-row table-row-btn" onclick="toggleBrokerDetails('${b.code}')">
+          <span class="broker-code" style="color:${getBrokerColor(b.code)}">${b.code}</span>
+          <span class="val-cell">${fmt(b.bVal)}</span>
+          <span class="sell-cell">${fmt(b.sVal)}</span>
+          <span class="net-cell row-last">
+            <span class="net-flow-cell">
+              <span class="net-inline-track">
+                <span class="net-inline-fill" style="width:${fillPct}%;background:${b.net >= 0 ? '#16a34a' : '#ef4444'}"></span>
+              </span>
+              <span class="net-inline-value" style="color:${netColor(b.net)}">${fmtNet(b.net)}</span>
+            </span>
+            <span class="row-chevron">${isExpanded ? '&#8964;' : '&#8250;'}</span>
+          </span>
+        </button>
+        ${isExpanded ? `
+          <div class="row-detail">
+            <div class="detail-label">Detail Breakdown</div>
+            <div class="detail-grid">
+              <div class="detail-item"><span class="detail-name">Total Lots</span><span class="detail-value">${(b.bLot + b.sLot).toLocaleString()}</span></div>
+              <div class="detail-item"><span class="detail-name">Avg Buy Price</span><span class="detail-value">${b.bAvg.toLocaleString()}</span></div>
+              <div class="detail-item"><span class="detail-name">Avg Sell Price</span><span class="detail-value">${b.sAvg.toLocaleString()}</span></div>
+              <div class="detail-item"><span class="detail-name">Market Vol Share</span><span class="detail-value">${getVolumeSharePct(b, allRows)}</span></div>
+            </div>
+            <button class="detail-link" onclick="openBrokerTrades(event, '${b.code}')">
+              <span>View ${b.code}'s Running Trades</span>
+              <span>&#8250;</span>
+            </button>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join("");
+}
+
+function renderLegacyRows(displayedPairs) {
+  return displayedPairs.map(pair => {
+    const b = pair.buyer;
+    const s = pair.seller;
+    return `
+      <div class="table-row wide-mode">
+        <span class="pair-code" style="color:${b ? getBrokerColor(b.code) : '#9ca3af'}">${b ? b.code : '-'}</span>
+        <span class="val-cell">${b ? fmt(b.bVal) : '-'}</span>
+        <span class="muted-cell">${b ? fmtLot(b.bLot) : '-'}</span>
+        <span class="muted-cell">${b ? b.bAvg.toLocaleString() : '-'}</span>
+        <span class="pair-code" style="color:${s ? getBrokerColor(s.code) : '#9ca3af'}">${s ? s.code : '-'}</span>
+        <span class="sell-cell">${s ? fmt(s.sVal) : '-'}</span>
+        <span class="muted-cell">${s ? fmtLot(s.sLot) : '-'}</span>
+      </div>
+    `;
+  }).join("");
+}
+
 function renderLoadingState() {
   return `
     <div class="table-state loading">
@@ -657,8 +751,8 @@ function render() {
   const drivers = getTopDrivers(filtered);
   const isLoading = state.fetchStatus === "loading";
   const isError = state.fetchStatus === "error";
-  const isEmpty = !isLoading && !isError && sorted.length === 0;
-  const hasSingleBroker = !isLoading && !isError && sorted.length === 1;
+  const isEmpty = !isLoading && !isError && filtered.length === 0;
+  const hasSingleBroker = !isLoading && !isError && filtered.length === 1;
 
   document.getElementById("app").innerHTML = `
     <!-- Header -->
@@ -819,25 +913,37 @@ function render() {
       <button class="beli-btn">Beli</button>
     </div>
 
-    <div class="date-sheet-overlay ${state.dateSheetOpen ? 'open' : ''}" onclick="closeDateSheet()"></div>
-    <div class="date-sheet ${state.dateSheetOpen ? 'open' : ''}" onclick="event.stopPropagation()">
-      <div class="date-sheet-title">Select Date</div>
-      <div class="date-sheet-pills">
-        ${DATE_PRESETS.map(p => `<button class="date-sheet-pill ${state.dateDraftPreset===p.key?'active':''}" onclick="pickDatePreset('${p.key}')">${p.label}</button>`).join("")}
-      </div>
-      <div class="date-input-grid">
-        <div>
-          <label class="date-input-label">Start</label>
-          <input class="date-input" type="date" value="${state.dateDraftStart}" max="${state.dateDraftEnd}" onchange="onDateDraftStartChange(this.value)">
-        </div>
-        <div>
-          <label class="date-input-label">End</label>
-          <input class="date-input" type="date" value="${state.dateDraftEnd}" min="${state.dateDraftStart}" onchange="onDateDraftEndChange(this.value)">
-        </div>
-      </div>
-      <button class="date-sheet-apply" onclick="applyDateSheet()">Apply</button>
-    </div>
   `;
+
+  const appEl = document.getElementById("app");
+  const appRect = appEl ? appEl.getBoundingClientRect() : null;
+  const sheetInlineStyle = appRect
+    ? `left:${appRect.left + (appRect.width / 2)}px;width:${appRect.width}px;bottom:${Math.max(0, window.innerHeight - appRect.bottom)}px;`
+    : "";
+
+  const modalRoot = document.getElementById("modal-root");
+  if (modalRoot) {
+    modalRoot.innerHTML = state.dateSheetOpen ? `
+      <div class="date-sheet-overlay open" onclick="closeDateSheet()"></div>
+      <div class="date-sheet open" style="${sheetInlineStyle}" onclick="event.stopPropagation()">
+        <div class="date-sheet-title">Select Date</div>
+        <div class="date-sheet-pills">
+          ${DATE_PRESETS.map(p => `<button class="date-sheet-pill ${state.dateDraftPreset===p.key?'active':''}" onclick="pickDatePreset('${p.key}')">${p.label}</button>`).join("")}
+        </div>
+        <div class="date-input-grid">
+          <div>
+            <label class="date-input-label">Start</label>
+            <input class="date-input" type="date" value="${state.dateDraftStart}" max="${state.dateDraftEnd}" onchange="onDateDraftStartChange(this.value)">
+          </div>
+          <div>
+            <label class="date-input-label">End</label>
+            <input class="date-input" type="date" value="${state.dateDraftEnd}" min="${state.dateDraftStart}" onchange="onDateDraftEndChange(this.value)">
+          </div>
+        </div>
+        <button class="date-sheet-apply" onclick="applyDateSheet()">Apply</button>
+      </div>
+    ` : "";
+  }
 }
 
 function requestDataRefresh() {
