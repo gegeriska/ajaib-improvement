@@ -34,23 +34,25 @@ body{margin:0;min-height:100vh;padding:24px;display:flex;align-items:center;just
 .bar24{display:flex;align-items:center;padding:7px 18px;border-top:1px solid var(--border-l);border-bottom:1px solid var(--border);font-size:12px;color:var(--txt2);gap:6px}
 .bar24 b{color:var(--txt);font-weight:600;font-family:var(--m);font-size:11px;margin-right:14px}
 
-.tfrow{display:flex;padding:7px 10px;align-items:center;gap:3px;border-bottom:1px solid var(--border-l)}
-.tfb{background:0;color:var(--txt3);border:0;border-radius:14px;padding:5px 10px;font-size:11px;font-weight:500;cursor:pointer;font-family:var(--f)}
-.tfb.a{background:var(--dark);color:#fff;font-weight:600}
-.tf-sep{width:1px;height:18px;background:var(--border);margin:0 3px}
-.tf-ic{width:26px;height:26px;border-radius:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--txt3)}
-.tf-ic.a{background:var(--blue);color:#fff}
-.mode-toggle{margin-left:auto;display:flex;align-items:center;gap:4px;cursor:pointer;padding:3px 10px;border-radius:8px;border:1px solid var(--border);background:var(--white);transition:all .15s}
-.mode-toggle.quick{background:var(--dark);border-color:var(--dark)}
-.mode-toggle .bolt{font-size:13px}.mode-toggle.quick .bolt{color:#FBBF24}.mode-toggle:not(.quick) .bolt{color:var(--txt3)}
-.mode-toggle .mlabel{font-size:10px;font-weight:600}.mode-toggle.quick .mlabel{color:#fff}.mode-toggle:not(.quick) .mlabel{color:var(--txt3)}
+.tfrow{display:flex;margin:8px 14px 4px;padding:6px;align-items:center;gap:2px;border:1px solid var(--border);border-radius:12px;background:var(--white)}
+.tfb{background:0;color:#6B7280;border:0;border-radius:9px;padding:8px 10px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--f);line-height:1}
+.tfb.a{background:#EEF5FF;color:#2563EB;box-shadow:inset 0 0 0 1.2px #93C5FD;font-weight:700}
+.tf-sep{width:1px;height:24px;background:var(--border);margin:0 4px}
+.tf-ic{width:34px;height:32px;border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:#6B7280;background:#F9FAFB;border:1px solid transparent}
+.tf-ic.a{background:#2E7BEF;color:#fff}
 
-.qlot{display:none;align-items:center;gap:5px;padding:5px 12px;border-bottom:1px solid var(--border-l)}
+.quickrow{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:0 14px 4px}
+.chartmode{display:flex;justify-content:flex-end;align-items:center;padding:0;flex:0 0 auto}
+.chartmode-btn{border:1px solid var(--border);background:var(--white);color:#6B7280;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--f);display:flex;align-items:center;gap:6px}
+.chartmode-btn.on{background:#EEF5FF;color:#2563EB;border-color:#93C5FD}
+
+.qlot{display:none;align-items:center;gap:5px;padding:0;border:0;flex:1;margin-right:auto}
 .qlot.on{display:flex}
 .qlot-label{font-size:10px;color:var(--txt3);font-weight:600;margin-right:2px}
 .qlot-pill{padding:4px 10px;font-size:11px;font-weight:600;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:var(--white);color:var(--txt2);font-family:var(--f)}
 .qlot-pill.a{background:var(--dark);color:#fff;border-color:var(--dark)}
-.pretrade{display:flex;align-items:center;gap:6px;padding:6px 12px;border-bottom:1px solid var(--border-l);background:var(--white)}
+.pretrade{display:none;align-items:center;gap:6px;padding:6px 14px;border-bottom:1px solid var(--border-l);background:var(--white)}
+.pretrade.on{display:flex}
 .pretrade-label{font-size:10px;font-weight:700;color:var(--txt3);margin-right:2px}
 .pt-group{display:flex;align-items:center;gap:4px;padding:3px 6px;border:1px solid var(--border);border-radius:7px;background:var(--bg)}
 .pt-tog{border:1px solid var(--border);background:var(--white);color:var(--txt2);font-size:10px;font-weight:700;border-radius:5px;padding:3px 7px;cursor:pointer;font-family:var(--f)}
@@ -102,15 +104,13 @@ body{margin:0;min-height:100vh;padding:24px;display:flex;align-items:center;just
 .ctab{background:0;color:var(--txt3);border:0;padding:10px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--f);border-bottom:2.5px solid transparent;white-space:nowrap}
 .ctab.a{color:var(--blue);font-weight:600;border-bottom-color:var(--blue)}
 
-.qbtns{position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px;z-index:20;transition:opacity .2s,transform .2s}
-.qbtns.h{opacity:0;transform:translateY(20px);pointer-events:none}
-.qb{flex:1;border:0;border-radius:10px;padding:13px 0;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--f);color:#fff;text-align:center}
-.qb:active{transform:scale(.97)}.qb.sell{background:var(--red)}.qb.buy{background:var(--blue)}
-.qb-price{font-size:10px;font-weight:500;opacity:.8;margin-top:2px;font-family:var(--m)}
-
-.abtns{position:absolute;bottom:0;left:0;right:0;padding:12px 18px 18px;background:var(--white);border-top:1px solid var(--border-l);display:none;gap:8px;z-index:20}
-.ab{flex:1;border:0;border-radius:10px;padding:15px 0;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--f);color:#fff}
-.ab:active{transform:scale(.98)}.ab.sell{background:var(--red)}.ab.buy{background:var(--blue)}
+.actbar{position:absolute;bottom:14px;left:14px;right:14px;display:flex;gap:8px;z-index:20;transition:opacity .2s,transform .2s}
+.actbar.h{opacity:0;transform:translateY(20px);pointer-events:none}
+.act{flex:1;border:0;border-radius:10px;padding:13px 0;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--f);text-align:center}
+.act:active{transform:scale(.97)}
+.act.sell{background:var(--red);color:#fff}
+.act.buy{background:var(--blue);color:#fff}
+.act-price{font-size:10px;font-weight:500;opacity:.82;margin-top:2px;font-family:var(--m)}
 
 .posc{position:absolute;bottom:0;left:0;right:0;padding:10px 16px 16px;background:var(--white);border-top:1px solid var(--border-l);display:none;gap:6px;z-index:20;align-items:center}
 .poss{background:var(--bg);border-radius:8px;padding:8px 10px;text-align:center;flex:1}
@@ -170,10 +170,11 @@ body{margin:0;min-height:100vh;padding:24px;display:flex;align-items:center;just
   .pair-right{width:100%;text-align:left}
   .pair-price{font-size:20px}
   .bar24{padding:10px 14px;flex-wrap:wrap;row-gap:4px}
-  .tfrow{padding:8px 8px;overflow-x:auto;scrollbar-width:none}
+  .tfrow{margin:8px 10px 4px;padding:6px;overflow-x:auto;scrollbar-width:none}
   .tfrow::-webkit-scrollbar{display:none}
-  .tfb{padding:6px 9px;font-size:11px;white-space:nowrap}
+  .tfb{padding:8px 9px;font-size:12px;white-space:nowrap}
   .tf-ic{flex-shrink:0}
+  .quickrow{padding:0 10px 4px}
   .pretrade{padding:6px 10px;gap:5px;overflow-x:auto;scrollbar-width:none}
   .pretrade::-webkit-scrollbar{display:none}
   .pretrade-label,.pt-tog,.pt-val{white-space:nowrap}
@@ -182,7 +183,7 @@ body{margin:0;min-height:100vh;padding:24px;display:flex;align-items:center;just
   .ib,.ctab{white-space:nowrap}
   .hist{margin:8px 14px}
   .hist-item{gap:10px;align-items:flex-start}
-  .abtns{padding:12px 14px 16px}
+  .actbar{left:10px;right:10px;bottom:10px}
   .posc{padding:10px 14px 16px;flex-wrap:wrap}
   .poss{min-width:calc(50% - 4px)}
   .bcl{flex:1 1 100%}
@@ -202,8 +203,11 @@ body{margin:0;min-height:100vh;padding:24px;display:flex;align-items:center;just
 <div class="hdr"><span class="hdr-back">&lt;</span><div class="hdr-r"><span class="hdr-ic">&#128269;</span><span class="hdr-star">&#9733;</span></div></div>
 <div class="pair"><div><div class="pair-name">EUR / USD</div><div class="pair-sub">Forex</div></div><div><div class="pair-price">1.09000</div><div class="pair-chg">&#9650; 0.00120 ( +0.11% )</div></div></div>
 <div class="bar24"><span>High 24h</span><b>1.09180</b><span>Low 24h</span><b>1.08280</b></div>
-<div class="tfrow" id="tfB"><button class="tfb" data-tf="1m">1m</button><button class="tfb" data-tf="15m">15m</button><button class="tfb" data-tf="1h">1h</button><button class="tfb" data-tf="4h">4h</button><button class="tfb a" data-tf="1D">1D</button><button class="tfb" data-tf="1W">1W</button><span class="tf-sep"></span><div class="tf-ic a">&#128202;</div><div class="tf-ic">&#128200;</div><div class="mode-toggle" id="modeTog"><span class="bolt">&#9889;</span><span class="mlabel" id="modeLabel">Advanced</span></div></div>
-<div class="qlot" id="qLot"><span class="qlot-label">LOT</span><button class="qlot-pill" data-l="0.01">0.01</button><button class="qlot-pill" data-l="0.05">0.05</button><button class="qlot-pill a" data-l="0.10">0.10</button><button class="qlot-pill" data-l="0.50">0.50</button></div>
+<div class="tfrow" id="tfB"><button class="tfb" data-tf="1m">1m</button><button class="tfb" data-tf="15m">15m</button><button class="tfb" data-tf="1h">1h</button><button class="tfb" data-tf="4h">4h</button><button class="tfb a" data-tf="1D">1D</button><button class="tfb" data-tf="1W">1W</button><span class="tf-sep"></span><div class="tf-ic a">&#128202;</div><div class="tf-ic">&#128200;</div></div>
+<div class="quickrow">
+  <div class="qlot" id="qLot"><span class="qlot-label">LOT</span><button class="qlot-pill" data-l="0.01">0.01</button><button class="qlot-pill" data-l="0.05">0.05</button><button class="qlot-pill a" data-l="0.10">0.10</button><button class="qlot-pill" data-l="0.50">0.50</button></div>
+  <div class="chartmode" id="chartModeRow"><button class="chartmode-btn" id="chartModeBtn"><span>&#9889;</span><span id="chartModeLabel">Quick Mode</span></button></div>
+</div>
 <div class="pretrade" id="preTrade">
   <span class="pretrade-label">Pre-set</span>
   <div class="pt-group">
@@ -242,8 +246,10 @@ body{margin:0;min-height:100vh;padding:24px;display:flex;align-items:center;just
 
 <div class="ctabs" id="cTabs"><button class="ctab a">Overview</button><button class="ctab">News</button><button class="ctab">Feed</button><button class="ctab">Token Info</button></div>
 
-<div class="qbtns" id="qBtns"><button class="qb sell" id="qSell">Sell<div class="qb-price">1.08996</div></button><button class="qb buy" id="qBuy">Buy<div class="qb-price">1.09004</div></button></div>
-<div class="abtns" id="aBtns"><button class="ab sell" id="aSell">Sell</button><button class="ab buy" id="aBuy">Buy</button></div>
+<div class="actbar" id="actBar">
+  <button class="act sell" id="actSell">Sell<div class="act-price">1.08996</div></button>
+  <button class="act buy" id="actBuy">Buy<div class="act-price">1.09004</div></button>
+</div>
 <div class="posc" id="posC"><div class="poss"><div class="possv" style="color:var(--blue)" id="rrV">--</div><div class="possl">risk / reward</div></div><button class="bcl" id="bCl">Close Position</button><div class="poss"><div class="possv" style="color:var(--green)" id="plV">+$0.00</div><div class="possl">P&L live</div></div></div>
 
 <div class="undo" id="undo"><div><div class="undo-txt"><b id="undoSide">BUY</b> <span id="undoLot">0.10</span> lot @ <span id="undoPrice">1.09000</span></div></div><button class="undo-btn" id="undoBtn">Undo</button><div class="undo-bar"><div class="undo-fill" id="undoFill"></div></div></div>
@@ -391,15 +397,21 @@ document.getElementById('togTp').addEventListener('click',()=>{
 });
 
 // â”€â”€ MODE TOGGLE â”€â”€
-document.getElementById('modeTog').addEventListener('click',()=>{
-  S.mode=S.mode==='quick'?'advanced':'quick';
-  document.getElementById('modeTog').classList.toggle('quick',S.mode==='quick');
-  document.getElementById('modeLabel').textContent=S.mode==='quick'?'Quick':'Advanced';
-  document.getElementById('qLot').classList.toggle('on',S.mode==='quick');
+function applyModeUI(){
+  const quick=S.mode==='quick';
+  document.getElementById('chartModeBtn').classList.toggle('on',quick);
+  document.getElementById('chartModeLabel').textContent=quick?'Quick On':'Quick Mode';
+  document.getElementById('qLot').classList.toggle('on',quick);
+  document.getElementById('preTrade').classList.toggle('on',quick);
+}
+function setMode(next){
+  if(S.mode===next)return;
+  S.mode=next;
+  applyModeUI();
   if(S.scr==='chart')showButtons();
-  gH(S.mode==='quick'?'\u26A1 Quick Mode':'Advanced Mode');
-});
-
+  gH(S.mode==='quick'?'Quick Mode':'Advanced Mode');
+}
+document.getElementById('chartModeBtn').addEventListener('click',()=>setMode(S.mode==='quick'?'advanced':'quick'));
 document.getElementById('qLot').addEventListener('click',e=>{const b=e.target.closest('.qlot-pill');if(!b)return;S.lots=parseFloat(b.dataset.l);document.querySelectorAll('.qlot-pill').forEach(x=>x.classList.remove('a'));b.classList.add('a')});
 
 // â”€â”€ CHART GESTURES â”€â”€
@@ -430,8 +442,8 @@ document.getElementById('mcSell').addEventListener('click',()=>{dismissAll();S.m
 let lpd=null;cv.addEventListener('touchstart',e=>{if(e.touches.length===2){clearTimeout(lpT);const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;lpd=Math.sqrt(dx*dx+dy*dy)}},{passive:true});cv.addEventListener('touchmove',e=>{if(e.touches.length===2&&lpd!==null){const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY,d=Math.sqrt(dx*dx+dy*dy);S.zoom=clamp(S.zoom+(d-lpd)*.03,0,7);lpd=d;draw()}},{passive:true});cv.addEventListener('touchend',()=>{lpd=null},{passive:true});cv.addEventListener('wheel',e=>{e.preventDefault();S.zoom=clamp(S.zoom+e.deltaY*.005,0,7);draw()},{passive:false});
 
 // â”€â”€ QUICK MODE â”€â”€
-document.getElementById('qBuy').addEventListener('click',()=>quickExec('BUY','market'));
-document.getElementById('qSell').addEventListener('click',()=>quickExec('SELL','market'));
+document.getElementById('actBuy').addEventListener('click',()=>{S.mode==='quick'?quickExec('BUY','market'):openPanel('BUY','market')});
+document.getElementById('actSell').addEventListener('click',()=>{S.mode==='quick'?quickExec('SELL','market'):openPanel('SELL','market')});
 function quickExec(side,type){
   S.side=side;S.orderType=type;S.scr='confirming';S.slOn=preSlOn;S.tpOn=preTpOn;
   const ep=type==='pending'&&S.pendingPrice?S.pendingPrice:S.entry;
@@ -451,8 +463,6 @@ function quickExec(side,type){
 document.getElementById('undoBtn').addEventListener('click',()=>{clearTimeout(S.undoTimer);document.getElementById('undo').classList.remove('on');S.scr='chart';S.pendingPrice=null;showButtons();gH('Cancelled \u2713')});
 
 // â”€â”€ ADVANCED MODE â”€â”€
-document.getElementById('aBuy').addEventListener('click',()=>openPanel('BUY','market'));
-document.getElementById('aSell').addEventListener('click',()=>openPanel('SELL','market'));
 function openPanel(side,type){S.side=side;S.orderType=type;S.scr='order';const isBuy=side==='BUY',lb=isBuy?'Buy':'Sell';document.getElementById('pnlT').textContent=lb+' EUR/USD';document.getElementById('pnlT').style.color=isBuy?'var(--blue)':'var(--red)';document.getElementById('bCf').className='bcf '+(isBuy?'buy':'sell');const pr=document.getElementById('pnlPR');pr.classList.add('on');if(type==='pending'&&S.pendingPrice){document.getElementById('pnlPV').textContent=S.pendingPrice.toFixed(5);document.getElementById('pnlPT').textContent=S.pendingPrice<S.entry?'LIMIT':'STOP'}else{document.getElementById('pnlPV').textContent=S.entry.toFixed(5);document.getElementById('pnlPT').textContent='MARKET'}document.getElementById('pOv').classList.add('on');requestAnimationFrame(()=>document.getElementById('pnl').classList.add('open'));hideButtons();updatePnlVals()}
 function closePanel(){document.getElementById('pnl').classList.remove('open');document.getElementById('pOv').classList.remove('on');S.scr='chart';S.pendingPrice=null;S.orderType='market';document.getElementById('pnlPR').classList.remove('on');showButtons();draw()}
 document.getElementById('pnlX').addEventListener('click',closePanel);document.getElementById('pOv').addEventListener('click',closePanel);
@@ -484,8 +494,8 @@ function showPosAdv(){
 }
 
 // â”€â”€ HELPERS â”€â”€
-function hideButtons(){document.getElementById('qBtns').classList.add('h');document.getElementById('aBtns').style.display='none'}
-function showButtons(){if(S.mode==='quick'){document.getElementById('qBtns').classList.remove('h');document.getElementById('qBtns').style.display='flex';document.getElementById('aBtns').style.display='none'}else{document.getElementById('aBtns').style.display='flex';document.getElementById('qBtns').style.display='none'}}
+function hideButtons(){document.getElementById('actBar').classList.add('h');document.getElementById('chartModeRow').style.display='none'}
+function showButtons(){document.getElementById('actBar').classList.remove('h');document.getElementById('actBar').style.display='flex';document.getElementById('chartModeRow').style.display='flex'}
 function showToast(bg,title,detail,pnl){const t=document.getElementById('toast');t.style.background=bg;t.style.boxShadow='0 12px 48px rgba(0,0,0,.2)';document.getElementById('toIco').textContent=pnl?'':'\u2713';document.getElementById('toT').textContent=title;document.getElementById('toD').textContent=detail;const pe=document.getElementById('toPnl');if(pnl){pe.style.display='block';pe.textContent=pnl}else pe.style.display='none';t.classList.add('on')}
 function hideToast(){document.getElementById('toast').classList.remove('on')}
 function showPos(){
@@ -571,7 +581,7 @@ openPanel=function(side,type){pnlSlOn=preSlOn;pnlTpOn=preTpOn;slPips=preSlPips;t
   updateSlDisplay();updateTpDisplay();
   origOpenPanel(side,type)};
 
-updatePretradeUI();showButtons();addEventListener('resize',resize);resize();
+updatePretradeUI();applyModeUI();showButtons();addEventListener('resize',resize);resize();
 </script>
 </body>
 </html>
