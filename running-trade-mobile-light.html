@@ -106,7 +106,7 @@
   .table-area{flex:1;overflow:hidden;display:flex;flex-direction:column;background:var(--bg-surface)}
 
   .table-head.mode-general{display:grid;grid-template-columns:64px 56px minmax(118px,1fr) 48px 46px;padding:10px 18px;border-bottom:1px solid var(--border);background:var(--bg-app);column-gap:8px}
-  .table-head.mode-stock{display:grid;grid-template-columns:54px 106px 38px 42px minmax(30px,1fr) minmax(30px,1fr);padding:10px 10px;border-bottom:1px solid var(--border);background:var(--bg-app);column-gap:5px}
+  .table-head.mode-stock{display:grid;grid-template-columns:52px 104px 36px 42px minmax(34px,1fr) minmax(34px,1fr);padding:10px 10px;border-bottom:1px solid var(--border);background:var(--bg-app);column-gap:6px}
   .th{font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:0.01em}
   .th.right{text-align:right}.th.center{text-align:center}
 
@@ -114,7 +114,7 @@
   .table-scroll::-webkit-scrollbar{display:none}
 
   .trade-row.mode-general{display:grid;grid-template-columns:64px 56px minmax(118px,1fr) 48px 46px;padding:14px 18px;align-items:center;border-bottom:1px solid var(--border-light);position:relative;column-gap:8px}
-  .trade-row.mode-stock{display:grid;grid-template-columns:54px 106px 38px 42px minmax(30px,1fr) minmax(30px,1fr);padding:12px 10px;align-items:center;border-bottom:1px solid var(--border-light);position:relative;column-gap:5px}
+  .trade-row.mode-stock{display:grid;grid-template-columns:52px 104px 36px 42px minmax(34px,1fr) minmax(34px,1fr);padding:12px 10px;align-items:center;border-bottom:1px solid var(--border-light);position:relative;column-gap:6px}
   .trade-row:nth-child(even){background:var(--bg-row-alt)}
 
   .trade-row.flash-buy{animation:fb .5s ease-out}
@@ -137,7 +137,7 @@
   .cell-side{text-align:center;justify-self:center;width:100%}
   .side-label{font-family:var(--font-sans);font-size:11px;font-weight:600}
   .side-label.buy{color:var(--green)}.side-label.sell{color:var(--red)}
-  .cell-lot{text-align:right;font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--text-secondary);justify-self:center;width:100%}
+  .cell-lot{text-align:center;font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--text-secondary);justify-self:center;width:100%}
   .cell-brk{display:flex;flex-direction:row;align-items:baseline;gap:1px;justify-self:center;white-space:nowrap;width:100%;justify-content:center}
   .brk-code{font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--text-primary)}
   .brk-type{font-family:var(--font-mono);font-size:8px;font-weight:700;letter-spacing:0.1px}
@@ -217,7 +217,7 @@
     .live-group{order:4}
     .filter-btn{margin-left:auto}
     .table-head.mode-general,.trade-row.mode-general{grid-template-columns:58px 52px minmax(104px,1fr) 42px 42px;padding-left:14px;padding-right:14px;column-gap:6px}
-    .table-head.mode-stock,.trade-row.mode-stock{grid-template-columns:50px 96px 34px 34px minmax(24px,1fr) minmax(24px,1fr);padding-left:6px;padding-right:6px;column-gap:4px}
+    .table-head.mode-stock,.trade-row.mode-stock{grid-template-columns:48px 92px 32px 38px minmax(28px,1fr) minmax(28px,1fr);padding-left:6px;padding-right:6px;column-gap:5px}
     .th{font-size:10px}
     .cell-time{font-size:10px}
     .cell-code{font-size:11px}
@@ -316,6 +316,20 @@ let mode='general',selStock=null,sheetStock=null,selListName=null,sheetListName=
 const bc=document.getElementById('sBrokers');
 BRK.forEach(b=>{const btn=document.createElement('button');btn.className='bp';btn.textContent=b;btn.onclick=()=>btn.classList.toggle('active');bc.appendChild(btn)});
 
+function getSelectedBrokers(){
+  return Array.from(document.querySelectorAll('.bp.active')).map(b=>b.textContent);
+}
+
+function applyBrokerFromQuery(){
+  const params=new URLSearchParams(window.location.search);
+  const broker=(params.get('broker')||'').toUpperCase().trim();
+  if(!broker||!BRK.includes(broker))return false;
+  document.querySelectorAll('.bp').forEach(btn=>btn.classList.toggle('active',btn.textContent===broker));
+  renderChips();
+  updateBdg();
+  return true;
+}
+
 function switchSrc(s,el){document.querySelectorAll('.source-tab').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');sheetSrc=s;renderSrc()}
 function renderSrc(){
   const c=document.getElementById('srcContent');c.innerHTML='';
@@ -377,7 +391,14 @@ function gen(){
   return{time,code,price,delta,changePct:((delta/base)*100).toFixed(2),action,lot,buyer,seller,value:price*lot*100};
 }
 function fmt(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',')}
-function pass(t){if(activeSide==='buy'&&t.action!=='buy')return false;if(activeSide==='sell'&&t.action!=='sell')return false;if(minLot>0&&t.lot<minLot)return false;return true}
+function pass(t){
+  if(activeSide==='buy'&&t.action!=='buy')return false;
+  if(activeSide==='sell'&&t.action!=='sell')return false;
+  if(minLot>0&&t.lot<minLot)return false;
+  const sb=getSelectedBrokers();
+  if(sb.length&&!sb.includes(t.buyer)&&!sb.includes(t.seller))return false;
+  return true;
+}
 function isBig(t){return mode==='stock'?t.lot>=BIG_LOT:t.value>=BIG_VAL}
 function addRow(t){
   if(!pass(t))return;
@@ -417,7 +438,9 @@ function closeFilter(){document.getElementById('sheetOv').classList.remove('open
 function resetSheet(){sheetStock=null;sheetListName=null;sheetSrc='search';switchSrc('search',document.querySelector('.source-tab'));document.querySelectorAll('.bp').forEach(b=>b.classList.remove('active'));['sPMin','sPMax','sTFrom','sTTo','sMinLot'].forEach(id=>document.getElementById(id).value='');selStock=null;selListName=null;selSrc='search';minLot=0;applyMode();renderChips();updateBdg()}
 function applySheet(){selStock=sheetStock;selListName=sheetListName;selSrc=sheetSrc;minLot=parseInt(document.getElementById('sMinLot').value)||0;applyMode();renderChips();updateBdg();closeFilter()}
 
-renderSrc();for(let i=0;i<25;i++)addRow(gen());
+renderSrc();
+const hasPresetBroker=applyBrokerFromQuery();
+if(hasPresetBroker)clr();else for(let i=0;i<25;i++)addRow(gen());
 setInterval(()=>{if(!paused){const b=Math.random()>.65?3:1;for(let i=0;i<b;i++)addRow(gen())}},400);
 </script>
 </body>

@@ -34,14 +34,29 @@
   .summary-title { font-size: 17px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
   .info-icon { font-size: 16px; color: #d1d5db; }
 
-  .chips { display: flex; gap: 8px; margin-bottom: 14px; align-items: center; flex-wrap: wrap; }
-  .chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .chip { padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; border: 1.5px solid #e5e7eb; background: white; color: #6b7280; cursor: pointer; transition: all 0.15s; }
+  .chips { display: grid; grid-template-columns: minmax(0, 1fr) 108px; gap: 8px; margin-bottom: 14px; align-items: center; width: 100%; overflow: hidden; }
+  .chip-row { display: flex; gap: 6px; flex-wrap: nowrap; min-width: 0; justify-content: flex-start; }
+  .chip { flex: 0 0 auto; width: auto; min-width: 0; min-height: 38px; padding: 0 14px; border-radius: 20px; font-size: 13px; font-weight: 500; border: 1.5px solid #e5e7eb; background: white; color: #6b7280; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
   .chip.active { border-color: #1d4ed8; background: #eff6ff; color: #1d4ed8; }
-  .market-dropdown { margin-left: auto; padding: 6px 14px; border-radius: 8px; font-size: 13px; color: #374151; border: 1.5px solid #e5e7eb; background: white; display: flex; align-items: center; gap: 6px; font-weight: 500; min-height: 38px; }
+  .market-dropdown-wrap { margin-left: 0; position: relative; min-height: 38px; width: 108px; min-width: 108px; max-width: 108px; }
+  .market-dropdown { width: 100%; padding: 6px 26px 6px 10px; border-radius: 8px; font-size: 13px; color: #374151; border: 1.5px solid #e5e7eb; background: white; display: flex; align-items: center; gap: 6px; font-weight: 500; min-height: 38px; appearance: none; -webkit-appearance: none; cursor: pointer; }
+  .market-dropdown-wrap svg { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; }
 
   .date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 12px; flex-wrap: wrap; }
   .date-text { font-size: 14px; color: #2563eb; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .date-btn { background: transparent; border: 0; padding: 0; cursor: pointer; font: inherit; color: #2563eb; }
+  .date-sheet-overlay { position: absolute; inset: 0; background: rgba(17, 24, 39, 0.36); opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 45; }
+  .date-sheet-overlay.open { opacity: 1; pointer-events: auto; }
+  .date-sheet { position: absolute; left: 0; right: 0; bottom: 0; background: #ffffff; border-radius: 18px 18px 0 0; box-shadow: 0 -14px 28px rgba(17, 24, 39, 0.14); transform: translateY(104%); transition: transform 0.24s ease; z-index: 46; padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px)); }
+  .date-sheet.open { transform: translateY(0); }
+  .date-sheet-title { text-align: center; font-size: 15px; font-weight: 700; color: #111827; margin: 2px 0 12px; }
+  .date-sheet-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .date-sheet-pill { border: 1.5px solid #e5e7eb; background: #ffffff; color: #6b7280; border-radius: 999px; min-height: 30px; padding: 0 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .date-sheet-pill.active { border-color: #2563eb; background: #eff6ff; color: #2563eb; }
+  .date-input-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
+  .date-input-label { font-size: 11px; color: #6b7280; font-weight: 600; margin-bottom: 4px; display: block; }
+  .date-input { width: 100%; min-height: 38px; border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 0 10px; font-size: 12px; color: #374151; background: #ffffff; }
+  .date-sheet-apply { width: 100%; min-height: 40px; border: 0; border-radius: 10px; background: #2563eb; color: #ffffff; font-size: 13px; font-weight: 700; cursor: pointer; }
 
   .toggle-wrap { display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
   .toggle-label { font-size: 14px; color: #374151; font-weight: 500; }
@@ -76,13 +91,49 @@
   .table-wrap { overflow-x: auto; scrollbar-width: none; }
   .table-wrap::-webkit-scrollbar { display: none; }
   .table-header { display: grid; grid-template-columns: 56px repeat(3, minmax(0, 1fr)); column-gap: 14px; padding: 12px 0 10px; border-bottom: 1px solid #f1f5f9; font-size: 13px; color: #6b7280; font-weight: 600; }
-  .table-row { display: grid; grid-template-columns: 56px repeat(3, minmax(0, 1fr)); column-gap: 14px; padding: 14px 0; border-bottom: 1px solid #f5f5f4; font-size: 15px; align-items: center; }
+  .table-row { display: grid; grid-template-columns: 56px repeat(3, minmax(0, 1fr)); column-gap: 14px; padding: 14px 0; font-size: 15px; align-items: center; }
+  .table-row-btn { width: 100%; background: transparent; border: 0; text-align: left; cursor: pointer; border-bottom: 1px solid #f5f5f4; }
+  .broker-row.expanded .table-row-btn { border-bottom: 0; }
   .broker-code { font-weight: 700; font-size: 14px; }
   .val-cell, .sell-cell, .muted-cell, .net-cell { text-align: right; justify-self: end; width: 100%; font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
   .val-cell { color: #374151; }
   .sell-cell { color: #dc2626; }
   .muted-cell { color: #6b7280; }
   .net-cell { font-weight: 500; }
+  .row-last { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+  .row-chevron { font-size: 15px; color: #9ca3af; width: 14px; text-align: center; flex-shrink: 0; }
+
+  .row-detail { background: #ffffff; border-bottom: 1px solid #f1f5f9; padding: 10px 12px 12px; margin-bottom: 0; }
+  .detail-label { font-size: 11px; color: #9ca3af; margin-bottom: 8px; letter-spacing: 0.2px; font-weight: 600; text-transform: uppercase; }
+  .detail-grid { display: grid; gap: 6px; margin-bottom: 10px; }
+  .detail-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; line-height: 1.35; }
+  .detail-name { color: #6b7280; }
+  .detail-value { color: #111827; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .detail-link { width: 100%; border: 1px solid #e5e7eb; background: #ffffff; color: #2563eb; border-radius: 8px; min-height: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+  .edge-banner { margin: 10px 0 0; padding: 10px 12px; border-radius: 10px; background: #fff7ed; color: #c2410c; font-size: 12px; border: 1px solid #fed7aa; }
+  .table-state { margin: 14px 0; padding: 16px 14px; border-radius: 12px; text-align: center; }
+  .table-state.loading { background: #f8fafc; border: 1px solid #e5e7eb; }
+  .table-state.error { background: #fef2f2; border: 1px solid #fecaca; }
+  .table-state.empty { background: #f8fafc; border: 1px dashed #cbd5e1; }
+  .state-title { font-size: 14px; font-weight: 700; color: #111827; }
+  .state-copy { margin-top: 6px; font-size: 12px; color: #6b7280; line-height: 1.4; }
+  .state-action { margin-top: 10px; border: 1px solid #fca5a5; color: #b91c1c; background: white; border-radius: 8px; min-height: 34px; padding: 0 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
+
+  .spinner { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #bfdbfe; border-top-color: #2563eb; margin: 0 auto 10px; animation: spin 0.9s linear infinite; }
+  .skeleton-wrap { margin-top: 10px; }
+  .skeleton-row { display: grid; grid-template-columns: 56px repeat(3, minmax(0, 1fr)); column-gap: 14px; padding: 12px 0; border-bottom: 1px solid #f5f5f4; }
+  .skeleton-cell { height: 11px; border-radius: 6px; background: linear-gradient(90deg, #e5e7eb 0%, #f3f4f6 45%, #e5e7eb 100%); background-size: 200% 100%; animation: shimmer 1.3s linear infinite; justify-self: end; width: 100%; }
+  .skeleton-cell.code { width: 36px; justify-self: start; }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
 
   .show-all-btn { display: flex; justify-content: center; align-items: center; padding: 12px 0; border-radius: 0 0 12px 12px; cursor: pointer; margin-bottom: 4px; }
   .show-all-btn.collapsed { background: linear-gradient(180deg, #f0f7ff 0%, #dbeafe 100%); }
@@ -142,40 +193,38 @@
     }
 
     .chips {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 116px;
-      gap: 10px;
-      align-items: center;
+      grid-template-columns: minmax(0, 1fr) 108px;
+      gap: 8px;
       margin-bottom: 16px;
     }
 
     .chip-row {
-      display: flex;
       gap: 6px;
-      min-width: 0;
     }
 
     .chip {
-      flex: 1;
-      min-width: 0;
       min-height: 42px;
-      padding: 0 8px;
+      padding: 0 12px;
       font-size: 11px;
-      text-align: center;
       border-radius: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    }
+
+    .market-dropdown-wrap {
+      width: 108px;
+      min-width: 108px;
+      max-width: 108px;
+      min-height: 42px;
     }
 
     .market-dropdown {
-      margin-left: 0;
-      width: 100%;
-      justify-content: space-between;
       min-height: 42px;
       border-radius: 10px;
-      padding: 0 12px;
+      padding: 0 24px 0 10px;
       font-size: 11px;
+    }
+
+    .market-dropdown-wrap svg {
+      right: 10px;
     }
 
     .date-row {
@@ -193,6 +242,39 @@
       display: flex;
       align-items: center;
       font-size: 12px;
+    }
+
+    .date-sheet {
+      left: 0;
+      right: 0;
+      border-radius: 16px 16px 0 0;
+      padding: 10px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .date-sheet-title {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .date-sheet-pills {
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .date-sheet-pill {
+      min-height: 28px;
+      padding: 0 10px;
+      font-size: 11px;
+    }
+
+    .date-input-grid {
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .date-input {
+      min-height: 36px;
+      font-size: 11px;
     }
 
     .toggle-wrap {
@@ -358,31 +440,225 @@ const fmtLot = v => {
   return v.toString();
 };
 
+function pad2(n) {
+  return String(n).padStart(2, "0");
+}
+
+function toISODate(date) {
+  return `${date.getFullYear()}-${pad2(date.getMonth()+1)}-${pad2(date.getDate())}`;
+}
+
+function fromISODate(iso) {
+  const [y,m,d] = iso.split("-").map(Number);
+  return new Date(y, (m || 1) - 1, d || 1);
+}
+
+function formatShortDate(iso) {
+  const d = fromISODate(iso);
+  return `${pad2(d.getDate())} ${MONTH_SHORT[d.getMonth()]} ${String(d.getFullYear()).slice(-2)}`;
+}
+
+function getDateRangeLabel() {
+  if (!state.dateStart || !state.dateEnd) return "-";
+  return `${formatShortDate(state.dateStart)} - ${formatShortDate(state.dateEnd)}`;
+}
+
+function getPresetRange(presetKey) {
+  const end = new Date();
+  end.setHours(0,0,0,0);
+
+  if (presetKey === "yesterday") {
+    const day = new Date(end);
+    day.setDate(day.getDate() - 1);
+    return { start: toISODate(day), end: toISODate(day) };
+  }
+
+  if (presetKey === "last_week") {
+    const start = new Date(end);
+    start.setDate(end.getDate() - 6);
+    return { start: toISODate(start), end: toISODate(end) };
+  }
+
+  if (presetKey === "last_month") {
+    const start = new Date(end);
+    start.setDate(end.getDate() - 29);
+    return { start: toISODate(start), end: toISODate(end) };
+  }
+
+  if (presetKey === "last_3_months") {
+    const start = new Date(end);
+    start.setDate(end.getDate() - 89);
+    return { start: toISODate(start), end: toISODate(end) };
+  }
+
+  return null;
+}
+
+function setDateRangeFromPreset(presetKey) {
+  const range = getPresetRange(presetKey);
+  if (!range) return;
+  state.datePreset = presetKey;
+  state.dateStart = range.start;
+  state.dateEnd = range.end;
+}
+
+function syncDateDraftFromState() {
+  state.dateDraftPreset = state.datePreset;
+  state.dateDraftStart = state.dateStart;
+  state.dateDraftEnd = state.dateEnd;
+}
+
+const MARKET_OPTIONS = [
+  { key: "all", label: "All Market" },
+  { key: "single", label: "Single Broker Demo" },
+  { key: "empty", label: "No Data Demo" },
+  { key: "error", label: "Fetch Error Demo" },
+];
+const DATE_PRESETS = [
+  { key: "yesterday", label: "Yesterday" },
+  { key: "last_week", label: "Last Week" },
+  { key: "last_month", label: "Last Month" },
+  { key: "last_3_months", label: "Last 3 Months" },
+];
+const MONTH_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
 // State
-let state = { tab: "all", netOn: true, investor: "all", showAll: false };
+let state = {
+  tab: "all",
+  netOn: true,
+  investor: "all",
+  showAll: false,
+  market: "all",
+  fetchStatus: "success",
+  errorMessage: "",
+  expandedBroker: null,
+  datePreset: "last_month",
+  dateStart: "",
+  dateEnd: "",
+  dateSheetOpen: false,
+  dateDraftPreset: "last_month",
+  dateDraftStart: "",
+  dateDraftEnd: "",
+};
 
 function getActiveTab() {
   return (!state.netOn && state.tab === "all") ? "buy" : state.tab;
 }
 
-function getSorted() {
+function getMarketScopedBrokers() {
+  if (state.market === "single") return BROKERS.filter(b => b.code === "CC");
+  if (state.market === "empty") return [];
+  return BROKERS;
+}
+
+function getFilteredBrokers() {
+  let rows = getMarketScopedBrokers();
+  if (state.investor === "domestic") rows = rows.filter(b => BROKER_TYPE[b.code] !== "asing");
+  if (state.investor === "foreign") rows = rows.filter(b => BROKER_TYPE[b.code] === "asing");
+  return rows;
+}
+
+function getSorted(rows) {
   const t = getActiveTab();
-  return [...BROKERS].sort((a,b) => {
+  return [...rows].sort((a,b) => {
     if (t === "buy") return b.bVal - a.bVal;
     if (t === "sell") return b.sVal - a.sVal;
     return Math.abs(b.net) - Math.abs(a.net);
   });
 }
 
-function getTopDrivers() {
-  return [...BROKERS].sort((a,b) => Math.abs(b.net) - Math.abs(a.net)).slice(0,3);
+function getTopDrivers(rows) {
+  return [...rows].sort((a,b) => Math.abs(b.net) - Math.abs(a.net)).slice(0,3);
+}
+
+function getVolumeSharePct(broker, rows) {
+  const total = rows.reduce((acc, cur) => acc + cur.bVal + cur.sVal, 0);
+  if (!total) return "0.0%";
+  return (((broker.bVal + broker.sVal) / total) * 100).toFixed(1) + "%";
+}
+
+function renderRows(at, displayed, sorted) {
+  return displayed.map(b => {
+    const isExpanded = state.expandedBroker === b.code;
+    return `
+      <div class="broker-row ${isExpanded ? 'expanded' : ''}">
+        <button class="table-row table-row-btn" onclick="toggleBrokerDetails('${b.code}')">
+          <span class="broker-code" style="color:${getBrokerColor(b.code)}">${b.code}</span>
+          ${at === 'all' ? `
+            <span class="val-cell">${fmt(b.bVal)}</span>
+            <span class="sell-cell">${fmt(b.sVal)}</span>
+            <span class="net-cell row-last" style="color:${netColor(b.net)}">
+              <span>${fmtNet(b.net)}</span>
+              <span class="row-chevron">${isExpanded ? '⌄' : '›'}</span>
+            </span>
+          ` : ''}
+          ${at === 'buy' ? `
+            <span class="val-cell">${fmt(b.bVal)}</span>
+            <span class="muted-cell">${fmtLot(b.bLot)}</span>
+            <span class="muted-cell row-last">
+              <span>${b.bAvg.toLocaleString()}</span>
+              <span class="row-chevron">${isExpanded ? '⌄' : '›'}</span>
+            </span>
+          ` : ''}
+          ${at === 'sell' ? `
+            <span class="val-cell">${fmt(b.sVal)}</span>
+            <span class="muted-cell">${fmtLot(b.sLot)}</span>
+            <span class="muted-cell row-last">
+              <span>${b.sAvg.toLocaleString()}</span>
+              <span class="row-chevron">${isExpanded ? '⌄' : '›'}</span>
+            </span>
+          ` : ''}
+        </button>
+        ${isExpanded ? `
+          <div class="row-detail">
+            <div class="detail-label">Detail Breakdown</div>
+            <div class="detail-grid">
+              <div class="detail-item"><span class="detail-name">Total Lots</span><span class="detail-value">${(b.bLot + b.sLot).toLocaleString()}</span></div>
+              <div class="detail-item"><span class="detail-name">Avg Buy Price</span><span class="detail-value">${b.bAvg.toLocaleString()}</span></div>
+              <div class="detail-item"><span class="detail-name">Avg Sell Price</span><span class="detail-value">${b.sAvg.toLocaleString()}</span></div>
+              <div class="detail-item"><span class="detail-name">Market Vol Share</span><span class="detail-value">${getVolumeSharePct(b, sorted)}</span></div>
+            </div>
+            <button class="detail-link" onclick="openBrokerTrades(event, '${b.code}')">
+              <span>View ${b.code}'s Running Trades</span>
+              <span>&#8250;</span>
+            </button>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join("");
+}
+
+function renderLoadingState() {
+  return `
+    <div class="table-state loading">
+      <div class="spinner"></div>
+      <div class="state-title">Loading broker data...</div>
+      <div class="state-copy">Menyiapkan ringkasan broker terbaru.</div>
+    </div>
+    <div class="skeleton-wrap">
+      ${Array.from({ length: 6 }).map(() => `
+        <div class="skeleton-row">
+          <span class="skeleton-cell code"></span>
+          <span class="skeleton-cell"></span>
+          <span class="skeleton-cell"></span>
+          <span class="skeleton-cell"></span>
+        </div>
+      `).join("")}
+    </div>
+  `;
 }
 
 function render() {
   const at = getActiveTab();
-  const sorted = getSorted();
+  const filtered = getFilteredBrokers();
+  const sorted = getSorted(filtered);
   const displayed = state.showAll ? sorted : sorted.slice(0, 10);
-  const drivers = getTopDrivers();
+  const drivers = getTopDrivers(filtered);
+  const isLoading = state.fetchStatus === "loading";
+  const isError = state.fetchStatus === "error";
+  const isEmpty = !isLoading && !isError && sorted.length === 0;
+  const hasSingleBroker = !isLoading && !isError && sorted.length === 1;
 
   document.getElementById("app").innerHTML = `
     <!-- Header -->
@@ -421,18 +697,23 @@ function render() {
       <div class="chips">
         <div class="chip-row">
           ${[["all","All"],["domestic","Domestic"],["foreign","Foreign"]].map(([k,l]) =>
-            `<button class="chip ${state.investor===k?'active':''}" onclick="setState({investor:'${k}'})">${l}</button>`
+            `<button class="chip ${state.investor===k?'active':''}" onclick="setInvestor('${k}')">${l}</button>`
           ).join("")}
         </div>
-        <div class="market-dropdown">All Market <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="market-dropdown-wrap">
+          <select class="market-dropdown" onchange="setMarket(this.value)">
+            ${MARKET_OPTIONS.map(m => `<option value="${m.key}" ${state.market===m.key?"selected":""}>${m.label}</option>`).join("")}
+          </select>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
       </div>
 
       <!-- Date + Net toggle -->
       <div class="date-row">
-        <div class="date-text">
-          01 Feb 26 - 28 Feb 26
+        <button class="date-text date-btn" onclick="openDateSheet()">
+          ${getDateRangeLabel()}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        </div>
+        </button>
         <div class="toggle-wrap" onclick="toggleNet()">
           <span class="toggle-label">Net</span>
           <span class="toggle-info">&#9432;</span>
@@ -443,7 +724,7 @@ function render() {
       </div>
 
       <!-- Insight card (only when Net ON) -->
-      ${state.netOn ? `
+      ${state.netOn && !isLoading && !isError && !isEmpty ? `
       <div class="insight-card">
         <div class="insight-title">
           <div class="insight-main">
@@ -465,11 +746,12 @@ function render() {
         </div>
         <div style="position:relative;margin-bottom:4px">
           <div class="acc-bar">
-            <div style="flex:3;background:#ef4444"></div>
-            <div style="flex:1.5;background:#fb923c"></div>
-            <div style="flex:1;background:#d1d5db"></div>
-            <div style="flex:1.5;background:#4ade80"></div>
-            <div style="flex:3;background:#16a34a"></div>
+            <div style="flex:1;background:#fecaca"></div>
+            <div style="flex:1;background:#fca5a5"></div>
+            <div style="flex:1;background:#ef4444"></div>
+            <div style="flex:1;background:#86efac"></div>
+            <div style="flex:1;background:#4ade80"></div>
+            <div style="flex:1;background:#16a34a"></div>
           </div>
           <div class="acc-indicator"></div>
         </div>
@@ -486,42 +768,40 @@ function render() {
 
       <!-- Table -->
       <div class="table-wrap">
-        <div class="table-header">
-          <span>Broker</span>
-          ${at === 'all' ? '<span style="text-align:right">Buy Value</span><span style="text-align:right">Sell Value</span><span style="text-align:right">Net</span>' : ''}
-          ${at === 'buy' ? '<span style="text-align:right">Buy Val</span><span style="text-align:right">Buy Lot</span><span style="text-align:right">Buy Avg</span>' : ''}
-          ${at === 'sell' ? '<span style="text-align:right">Sell Val</span><span style="text-align:right">Sell Lot</span><span style="text-align:right">Sell Avg</span>' : ''}
-        </div>
-
-        ${displayed.map(b => `
-          <div class="table-row">
-            <span class="broker-code" style="color:${getBrokerColor(b.code)}">${b.code}</span>
-            ${at === 'all' ? `
-              <span class="val-cell">${fmt(b.bVal)}</span>
-              <span class="sell-cell">${fmt(b.sVal)}</span>
-              <span class="net-cell" style="color:${netColor(b.net)}">${fmtNet(b.net)}</span>
-            ` : ''}
-            ${at === 'buy' ? `
-              <span class="val-cell">${fmt(b.bVal)}</span>
-              <span class="muted-cell">${fmtLot(b.bLot)}</span>
-              <span class="muted-cell">${b.bAvg.toLocaleString()}</span>
-            ` : ''}
-            ${at === 'sell' ? `
-              <span class="val-cell">${fmt(b.sVal)}</span>
-              <span class="muted-cell">${fmtLot(b.sLot)}</span>
-              <span class="muted-cell">${b.sAvg.toLocaleString()}</span>
-            ` : ''}
-          </div>
-        `).join("")}
-
-        ${sorted.length > 10 ? `
-          <div class="show-all-btn ${state.showAll?'expanded':'collapsed'}" onclick="toggleShowAll()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
+        ${isLoading ? renderLoadingState() : ''}
+        ${isError ? `
+          <div class="table-state error">
+            <div class="state-title">Failed to load broker data</div>
+            <div class="state-copy">${state.errorMessage || "Terjadi kendala saat mengambil data broker."}</div>
+            <button class="state-action" onclick="retryFetch()">Retry</button>
           </div>
         ` : ''}
+        ${isEmpty ? `
+          <div class="table-state empty">
+            <div class="state-title">Belum ada data broker</div>
+            <div class="state-copy">Data untuk filter ini belum tersedia. Coba ubah investor type atau market.</div>
+          </div>
+        ` : ''}
+
+        ${(!isLoading && !isError && !isEmpty) ? `
+          <div class="table-header">
+            <span>Broker</span>
+            ${at === 'all' ? '<span style="text-align:right">Buy Value</span><span style="text-align:right">Sell Value</span><span style="text-align:right">Net</span>' : ''}
+            ${at === 'buy' ? '<span style="text-align:right">Buy Val</span><span style="text-align:right">Buy Lot</span><span style="text-align:right">Buy Avg</span>' : ''}
+            ${at === 'sell' ? '<span style="text-align:right">Sell Val</span><span style="text-align:right">Sell Lot</span><span style="text-align:right">Sell Avg</span>' : ''}
+          </div>
+          ${renderRows(at, displayed, sorted)}
+          ${sorted.length > 10 ? `
+            <div class="show-all-btn ${state.showAll?'expanded':'collapsed'}" onclick="toggleShowAll()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </div>
+          ` : ''}
+        ` : ''}
       </div>
+
+      ${hasSingleBroker ? `<div class="edge-banner">Only 1 broker traded in this period. Ranking and comparison metrics may be limited.</div>` : ''}
 
       <div class="footer-link"><span>Lihat Daftar Broker</span></div>
     </div>
@@ -538,29 +818,136 @@ function render() {
       </div>
       <button class="beli-btn">Beli</button>
     </div>
+
+    <div class="date-sheet-overlay ${state.dateSheetOpen ? 'open' : ''}" onclick="closeDateSheet()"></div>
+    <div class="date-sheet ${state.dateSheetOpen ? 'open' : ''}" onclick="event.stopPropagation()">
+      <div class="date-sheet-title">Select Date</div>
+      <div class="date-sheet-pills">
+        ${DATE_PRESETS.map(p => `<button class="date-sheet-pill ${state.dateDraftPreset===p.key?'active':''}" onclick="pickDatePreset('${p.key}')">${p.label}</button>`).join("")}
+      </div>
+      <div class="date-input-grid">
+        <div>
+          <label class="date-input-label">Start</label>
+          <input class="date-input" type="date" value="${state.dateDraftStart}" max="${state.dateDraftEnd}" onchange="onDateDraftStartChange(this.value)">
+        </div>
+        <div>
+          <label class="date-input-label">End</label>
+          <input class="date-input" type="date" value="${state.dateDraftEnd}" min="${state.dateDraftStart}" onchange="onDateDraftEndChange(this.value)">
+        </div>
+      </div>
+      <button class="date-sheet-apply" onclick="applyDateSheet()">Apply</button>
+    </div>
   `;
 }
 
-function setState(updates) {
-  Object.assign(state, updates);
+function requestDataRefresh() {
+  state.errorMessage = "";
+
+  if (state.market === "error") {
+    state.fetchStatus = "error";
+    state.errorMessage = "Unable to fetch broker summary. Please check your connection and try again.";
+    render();
+    return;
+  }
+
+  const visible = getSorted(getFilteredBrokers());
+  if (state.expandedBroker && !visible.some(b => b.code === state.expandedBroker)) {
+    state.expandedBroker = null;
+  }
+  state.fetchStatus = "success";
   render();
+}
+
+function setInvestor(investor) {
+  state.investor = investor;
+  state.showAll = false;
+  requestDataRefresh();
+}
+
+function setMarket(market) {
+  state.market = market;
+  state.showAll = false;
+  requestDataRefresh();
+}
+
+function openDateSheet() {
+  syncDateDraftFromState();
+  state.dateSheetOpen = true;
+  render();
+}
+
+function closeDateSheet() {
+  state.dateSheetOpen = false;
+  render();
+}
+
+function pickDatePreset(presetKey) {
+  const range = getPresetRange(presetKey);
+  if (!range) return;
+  state.dateDraftPreset = presetKey;
+  state.dateDraftStart = range.start;
+  state.dateDraftEnd = range.end;
+  render();
+}
+
+function onDateDraftStartChange(startISO) {
+  if (!startISO) return;
+  state.dateDraftStart = startISO;
+  if (!state.dateDraftEnd || state.dateDraftEnd < startISO) state.dateDraftEnd = startISO;
+  state.dateDraftPreset = "custom";
+  render();
+}
+
+function onDateDraftEndChange(endISO) {
+  if (!endISO) return;
+  state.dateDraftEnd = endISO;
+  if (!state.dateDraftStart || state.dateDraftStart > endISO) state.dateDraftStart = endISO;
+  state.dateDraftPreset = "custom";
+  render();
+}
+
+function applyDateSheet() {
+  if (!state.dateDraftStart || !state.dateDraftEnd) return;
+  const safeStart = state.dateDraftStart <= state.dateDraftEnd ? state.dateDraftStart : state.dateDraftEnd;
+  const safeEnd = state.dateDraftEnd >= state.dateDraftStart ? state.dateDraftEnd : state.dateDraftStart;
+  state.dateStart = safeStart;
+  state.dateEnd = safeEnd;
+  state.datePreset = state.dateDraftPreset === "custom" ? "custom" : state.dateDraftPreset;
+  state.dateSheetOpen = false;
+  state.showAll = false;
+  requestDataRefresh();
 }
 
 function toggleNet() {
   if (state.netOn && state.tab === "all") state.tab = "buy";
   state.netOn = !state.netOn;
-  render();
+  state.showAll = false;
+  requestDataRefresh();
 }
 
 function setTab(t) {
   state.tab = t;
   state.showAll = false;
-  render();
+  requestDataRefresh();
+}
+
+function retryFetch() {
+  requestDataRefresh();
 }
 
 function toggleShowAll() {
   state.showAll = !state.showAll;
   render();
+}
+
+function toggleBrokerDetails(code) {
+  state.expandedBroker = state.expandedBroker === code ? null : code;
+  render();
+}
+
+function openBrokerTrades(event, code) {
+  event.stopPropagation();
+  window.location.href = `running-trade-mobile-light.html?broker=${encodeURIComponent(code)}`;
 }
 
 function syncDesktopFrame() {
@@ -574,7 +961,9 @@ function syncDesktopFrame() {
   }
 }
 
-render();
+setDateRangeFromPreset("last_month");
+syncDateDraftFromState();
+requestDataRefresh();
 syncDesktopFrame();
 window.addEventListener("resize", syncDesktopFrame);
 </script>
