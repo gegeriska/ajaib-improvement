@@ -403,6 +403,13 @@ function applyModeUI(){
   document.getElementById('chartModeLabel').textContent=quick?'Quick On':'Quick Mode';
   document.getElementById('qLot').classList.toggle('on',quick);
   document.getElementById('preTrade').classList.toggle('on',quick);
+  updateQuickModeVisibility();
+}
+function updateQuickModeVisibility(){
+  const row=document.getElementById('chartModeRow');
+  if(S.scr==='chart'){row.style.display='flex';return}
+  if((S.scr==='confirming'||S.scr==='position')&&S.mode==='quick'){row.style.display='flex';return}
+  row.style.display='none';
 }
 function setMode(next){
   if(S.mode===next)return;
@@ -411,7 +418,13 @@ function setMode(next){
   if(S.scr==='chart')showButtons();
   gH(S.mode==='quick'?'Quick Mode':'Advanced Mode');
 }
-document.getElementById('chartModeBtn').addEventListener('click',()=>setMode(S.mode==='quick'?'advanced':'quick'));
+document.getElementById('chartModeBtn').addEventListener('click',()=>{
+  if(S.scr!=='chart'){
+    if(S.mode==='quick')gH('Quick Mode is still active. Turning it off will stop quick trade flow.');
+    return;
+  }
+  setMode(S.mode==='quick'?'advanced':'quick');
+});
 document.getElementById('qLot').addEventListener('click',e=>{const b=e.target.closest('.qlot-pill');if(!b)return;S.lots=parseFloat(b.dataset.l);document.querySelectorAll('.qlot-pill').forEach(x=>x.classList.remove('a'));b.classList.add('a')});
 
 // â”€â”€ CHART GESTURES â”€â”€
@@ -494,8 +507,8 @@ function showPosAdv(){
 }
 
 // â”€â”€ HELPERS â”€â”€
-function hideButtons(){document.getElementById('actBar').classList.add('h');document.getElementById('chartModeRow').style.display='none'}
-function showButtons(){document.getElementById('actBar').classList.remove('h');document.getElementById('actBar').style.display='flex';document.getElementById('chartModeRow').style.display='flex'}
+function hideButtons(){document.getElementById('actBar').classList.add('h');updateQuickModeVisibility()}
+function showButtons(){document.getElementById('actBar').classList.remove('h');document.getElementById('actBar').style.display='flex';updateQuickModeVisibility()}
 function showToast(bg,title,detail,pnl){const t=document.getElementById('toast');t.style.background=bg;t.style.boxShadow='0 12px 48px rgba(0,0,0,.2)';document.getElementById('toIco').textContent=pnl?'':'\u2713';document.getElementById('toT').textContent=title;document.getElementById('toD').textContent=detail;const pe=document.getElementById('toPnl');if(pnl){pe.style.display='block';pe.textContent=pnl}else pe.style.display='none';t.classList.add('on')}
 function hideToast(){document.getElementById('toast').classList.remove('on')}
 function showPos(){
