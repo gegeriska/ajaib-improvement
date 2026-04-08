@@ -418,9 +418,29 @@ function setMode(next){
   if(S.scr==='chart')showButtons();
   gH(S.mode==='quick'?'Quick Mode':'Advanced Mode');
 }
+function confirmQuickModeExit(){
+  const msg='Quick mode is still active. Turning it off will stop quick trade from and close the position. Are you sure?';
+  if(!confirm(msg))return;
+  if(S.scr==='confirming'){
+    clearTimeout(S.undoTimer);
+    document.getElementById('undo').classList.remove('on');
+    S.scr='chart';
+    S.pendingPrice=null;
+    setMode('advanced');
+    showButtons();
+    draw();
+    return;
+  }
+  if(S.scr==='position'){
+    setMode('advanced');
+    closePosition('manual');
+    return;
+  }
+  setMode('advanced');
+}
 document.getElementById('chartModeBtn').addEventListener('click',()=>{
   if(S.scr!=='chart'){
-    if(S.mode==='quick')gH('Quick Mode is still active. Turning it off will stop quick trade flow.');
+    if(S.mode==='quick')confirmQuickModeExit();
     return;
   }
   setMode(S.mode==='quick'?'advanced':'quick');
