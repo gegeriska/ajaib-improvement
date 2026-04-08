@@ -161,6 +161,15 @@ body{margin:0;min-height:100vh;padding:24px;display:flex;align-items:center;just
 .toast.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .ghint{position:absolute;top:4px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);color:#fff;border-radius:12px;padding:4px 14px;font-size:9px;font-weight:500;z-index:55;white-space:nowrap;opacity:0;transition:opacity .3s;pointer-events:none}
 .ghint.on{opacity:1}
+.qcov{position:absolute;inset:0;background:rgba(15,23,42,.36);z-index:66;opacity:0;pointer-events:none;transition:opacity .2s}
+.qcov.on{opacity:1;pointer-events:auto}
+.qdlg{position:absolute;left:14px;right:14px;top:50%;transform:translateY(-46%) scale(.96);background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px;z-index:67;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 18px 40px rgba(15,23,42,.22)}
+.qdlg.on{opacity:1;pointer-events:auto;transform:translateY(-50%) scale(1)}
+.qdlg-t{font-size:14px;font-weight:700;color:var(--txt);margin-bottom:8px}
+.qdlg-d{font-size:12px;line-height:1.5;color:var(--txt2)}
+.qdlg-a{display:flex;gap:8px;margin-top:14px}
+.qdlg-b{flex:1;border:1px solid var(--border);background:var(--bg);color:var(--txt2);border-radius:9px;padding:10px 0;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--f)}
+.qdlg-b.danger{border-color:var(--red);background:var(--red);color:#fff}
 
 @media (max-width: 480px){
   body{padding:0;display:block}
@@ -254,6 +263,15 @@ body{margin:0;min-height:100vh;padding:24px;display:flex;align-items:center;just
 
 <div class="undo" id="undo"><div><div class="undo-txt"><b id="undoSide">BUY</b> <span id="undoLot">0.10</span> lot @ <span id="undoPrice">1.09000</span></div></div><button class="undo-btn" id="undoBtn">Undo</button><div class="undo-bar"><div class="undo-fill" id="undoFill"></div></div></div>
 <div class="pov" id="pOv"></div>
+<div class="qcov" id="qCov"></div>
+<div class="qdlg" id="qDlg">
+  <div class="qdlg-t">Exit Quick Mode?</div>
+  <div class="qdlg-d">Quick mode is still active. Turning it off will stop quick trade from and close the position. Are you sure?</div>
+  <div class="qdlg-a">
+    <button class="qdlg-b" id="qCancel">Cancel</button>
+    <button class="qdlg-b danger" id="qConfirm">Yes, Turn Off</button>
+  </div>
+</div>
 
 <div class="pnl" id="pnl">
   <div class="pnl-h" id="pnlH"></div>
@@ -418,25 +436,36 @@ function setMode(next){
   if(S.scr==='chart')showButtons();
   gH(S.mode==='quick'?'Quick Mode':'Advanced Mode');
 }
+let quickExitCb=null;
+function hideQuickConfirm(){
+  document.getElementById('qCov').classList.remove('on');
+  document.getElementById('qDlg').classList.remove('on');
+  quickExitCb=null;
+}
+function showQuickConfirm(onConfirm){
+  quickExitCb=onConfirm;
+  document.getElementById('qCov').classList.add('on');
+  document.getElementById('qDlg').classList.add('on');
+}
 function confirmQuickModeExit(){
-  const msg='Quick mode is still active. Turning it off will stop quick trade from and close the position. Are you sure?';
-  if(!confirm(msg))return;
-  if(S.scr==='confirming'){
-    clearTimeout(S.undoTimer);
-    document.getElementById('undo').classList.remove('on');
-    S.scr='chart';
-    S.pendingPrice=null;
+  showQuickConfirm(()=>{
+    if(S.scr==='confirming'){
+      clearTimeout(S.undoTimer);
+      document.getElementById('undo').classList.remove('on');
+      S.scr='chart';
+      S.pendingPrice=null;
+      setMode('advanced');
+      showButtons();
+      draw();
+      return;
+    }
+    if(S.scr==='position'){
+      setMode('advanced');
+      closePosition('manual');
+      return;
+    }
     setMode('advanced');
-    showButtons();
-    draw();
-    return;
-  }
-  if(S.scr==='position'){
-    setMode('advanced');
-    closePosition('manual');
-    return;
-  }
-  setMode('advanced');
+  });
 }
 document.getElementById('chartModeBtn').addEventListener('click',()=>{
   if(S.scr!=='chart'){
@@ -446,6 +475,13 @@ document.getElementById('chartModeBtn').addEventListener('click',()=>{
   setMode(S.mode==='quick'?'advanced':'quick');
 });
 document.getElementById('qLot').addEventListener('click',e=>{const b=e.target.closest('.qlot-pill');if(!b)return;S.lots=parseFloat(b.dataset.l);document.querySelectorAll('.qlot-pill').forEach(x=>x.classList.remove('a'));b.classList.add('a')});
+document.getElementById('qCov').addEventListener('click',hideQuickConfirm);
+document.getElementById('qCancel').addEventListener('click',hideQuickConfirm);
+document.getElementById('qConfirm').addEventListener('click',()=>{
+  const cb=quickExitCb;
+  hideQuickConfirm();
+  if(cb)cb();
+});
 
 // â”€â”€ CHART GESTURES â”€â”€
 let lpT=null,tsp=null,moved=false,lpFired=false;
